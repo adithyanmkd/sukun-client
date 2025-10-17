@@ -1,6 +1,7 @@
 import HeroSection from "./components/HeroSection";
 import CategorySection from "./components/categorySection/CategorySection";
-import FeaturedVideo from "./components/featuredVideo/FeaturedVideo";
+import FeaturedVideo from "./components/featuredVideoSection/FeaturedVideo";
+import FeaturedTutorsSection from "./components/featuredTutorsSection/FeaturedTutorsSection";
 
 const HomePage = () => {
   return (
@@ -9,6 +10,7 @@ const HomePage = () => {
         <HeroSection />
         <CategorySection />
         <FeaturedVideo />
+        <FeaturedTutorsSection />
       </div>
     </>
   );
