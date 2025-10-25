@@ -8,8 +8,8 @@ const FeaturedVideo = () => {
       </h1>
       <div className="mx-auto grid max-w-7xl grid-cols-5 gap-6">
         {/* future loop through video */}
-        {[...Array(5).keys()].map(() => (
-          <VideoCard source="file_example_MOV_1920_2_2MB_qrexeg" />
+        {[...Array(5).keys()].map((_, index) => (
+          <VideoCard key={index} source="file_example_MOV_1920_2_2MB_qrexeg" />
         ))}
       </div>
     </div>
