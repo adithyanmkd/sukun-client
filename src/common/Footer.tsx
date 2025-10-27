@@ -75,8 +75,8 @@ const Footer = () => {
             grow in your faith.
           </p>
           <div className="mt-2 flex justify-center space-x-4 pt-1 md:justify-start">
-            {socialLinks.map((item) => (
-              <Link to={item.link}>
+            {socialLinks.map((item, index) => (
+              <Link key={index} to={item.link}>
                 <img src={item.icon} alt={item.name} />
               </Link>
             ))}
