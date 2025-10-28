@@ -49,34 +49,6 @@ const RegisterForm = () => {
                 placeholder="Enter your phone number"
               />
             </div>
-
-            {/* Password */}
-            {/* <div className="grid gap-2">
-              <div className="flex items-center">
-                <Label htmlFor="password">Password</Label>
-              </div>
-              <Input
-                className="bg-white"
-                id="password"
-                type="password"
-                placeholder="Enter your password"
-                required
-              />
-            </div> */}
-
-            {/* Confirm Password */}
-            {/* <div className="grid gap-2">
-              <div className="flex items-center">
-                <Label htmlFor="confirmPassword">Confirm Password</Label>
-              </div>
-              <Input
-                className="bg-white"
-                id="confirmPassword"
-                type="password"
-                placeholder="Re-enter your password"
-                required
-              />
-            </div> */}
           </div>
         </form>
       </CardContent>

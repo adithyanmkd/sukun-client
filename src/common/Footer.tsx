@@ -13,6 +13,11 @@ interface SocialType {
   link: string;
 }
 
+interface QuickLink {
+  name: string;
+  link: string;
+}
+
 const socialLinks: SocialType[] = [
   {
     name: "facebook",
@@ -36,11 +41,6 @@ const socialLinks: SocialType[] = [
   },
 ];
 
-interface QuickLink {
-  name: string;
-  link: string;
-}
-
 const quickLinks: QuickLink[] = [
   {
     name: "About Us",
@@ -48,7 +48,7 @@ const quickLinks: QuickLink[] = [
   },
   {
     name: "Contact",
-    link: "/",
+    link: "/contact",
   },
   {
     name: "Privacy Policy",
@@ -87,9 +87,9 @@ const Footer = () => {
           <ul className="space-y-1 text-sm text-white/70">
             {quickLinks.map(({ link, name }, index) => (
               <li key={index}>
-                <a href={link} className="hover:underline">
+                <Link to={link} className="hover:underline">
                   {name}
-                </a>
+                </Link>
               </li>
             ))}
           </ul>

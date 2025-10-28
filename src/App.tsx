@@ -8,6 +8,8 @@ import AuthLayout from "./layouts/AuthLayout";
 import HomePage from "./features/home/HomePage";
 import RegisterPage from "./features/auth/pages/RegisterPage";
 import Login from "./features/auth/pages/Login";
+import AboutUs from "./pages/AboutUs";
+import ContactUs from "./pages/ContactUs/ContactUs";
 
 function App() {
   return (
@@ -19,6 +21,8 @@ function App() {
         </Route>
         <Route element={<MainLayout />}>
           <Route path="/" element={<HomePage />} />
+          <Route path="/about" element={<AboutUs />} />
+          <Route path="/contact" element={<ContactUs />} />
         </Route>
       </Routes>
     </>
