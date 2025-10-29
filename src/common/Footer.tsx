@@ -44,7 +44,7 @@ const socialLinks: SocialType[] = [
 const quickLinks: QuickLink[] = [
   {
     name: "About Us",
-    link: "/",
+    link: "/about",
   },
   {
     name: "Contact",

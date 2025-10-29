@@ -8,8 +8,8 @@ import AuthLayout from "./layouts/AuthLayout";
 import HomePage from "./features/home/HomePage";
 import RegisterPage from "./features/auth/pages/RegisterPage";
 import Login from "./features/auth/pages/Login";
-import AboutUs from "./pages/AboutUs";
-import ContactUs from "./pages/ContactUs/ContactUs";
+import AboutUs from "./pages/aboutUs/AboutUs";
+import ContactUs from "./pages/contactUs/ContactUs";
 
 function App() {
   return (
