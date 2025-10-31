@@ -10,6 +10,7 @@ import RegisterPage from "./features/auth/pages/RegisterPage";
 import Login from "./features/auth/pages/Login";
 import AboutUs from "./pages/aboutUs/AboutUs";
 import ContactUs from "./pages/contactUs/ContactUs";
+import AllFeatures from "./pages/allFeatures/AllFeatures";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/about" element={<AboutUs />} />
           <Route path="/contact" element={<ContactUs />} />
+          <Route path="/all-features" element={<AllFeatures />} />
         </Route>
       </Routes>
     </>
