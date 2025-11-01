@@ -12,6 +12,7 @@ import AboutUs from "./pages/aboutUs/AboutUs";
 import ContactUs from "./pages/contactUs/ContactUs.tsx";
 import AllFeatures from "./pages/allFeatures/AllFeatures";
 import Faq from "./pages/faq/Faq";
+import PageNotFound from "./pages/PageNotFound.tsx";
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
           <Route path="/contact" element={<ContactUs />} />
           <Route path="/all-features" element={<AllFeatures />} />
           <Route path="/faq" element={<Faq />} />
+          <Route path="/*" element={<PageNotFound />} />
         </Route>
       </Routes>
     </>
