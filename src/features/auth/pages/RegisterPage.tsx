@@ -1,18 +1,19 @@
+import { useState } from "react";
 import RegisterForm from "../components/RegisterForm";
-
 import RegisterBg from "@assets/images/registerPageBg.svg";
 
 const RegisterPage = () => {
+  const [isImageLoaded, setIsImageLoaded] = useState(false);
+
   return (
-    <div className="border border-t-[#DEE1E6]">
-      <div className="relative flex items-center justify-center">
-        <img
-          className="sticky w-screen opacity-50"
-          src={RegisterBg}
-          alt="register bg"
-        />
-        <RegisterForm />
-      </div>
+    <div className="relative flex flex-col items-center justify-center">
+      <img
+        className="opacity-50"
+        src={RegisterBg}
+        onLoad={() => setIsImageLoaded(true)}
+        alt="register bg"
+      />
+      {isImageLoaded && <RegisterForm />}
     </div>
   );
 };

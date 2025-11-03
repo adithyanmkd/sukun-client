@@ -11,13 +11,15 @@ const AuthLayout = () => {
   const location = useLocation();
 
   return (
-    <div className="flex h-full flex-col justify-between">
+    <div className="flex min-h-screen flex-col">
       <Navbar />
-      <AnimatePresence mode="wait">
-        <PageTransition key={location.pathname}>
-          <Outlet />
-        </PageTransition>
-      </AnimatePresence>
+      <main className="flex flex-1 flex-col">
+        <AnimatePresence mode="wait">
+          <PageTransition key={location.pathname}>
+            <Outlet />
+          </PageTransition>
+        </AnimatePresence>
+      </main>
       <AuthFooter />
     </div>
   );
