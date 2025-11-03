@@ -1,13 +1,22 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
+import { AnimatePresence } from "framer-motion";
+
 import Navbar from "../common/Navbar";
 import Footer from "../common/Footer";
+import PageTransition from "@/common/PageTransition";
 
 const MainLayout = () => {
+  const location = useLocation();
+
   return (
     <div className="flex min-h-screen flex-col justify-between">
       <Navbar />
       <main className="flex-1">
-        <Outlet />
+        <AnimatePresence mode="wait">
+          <PageTransition key={location.pathname}>
+            <Outlet />
+          </PageTransition>
+        </AnimatePresence>
       </main>
       <Footer />
     </div>

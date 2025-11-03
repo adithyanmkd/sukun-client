@@ -1,4 +1,6 @@
-import { Outlet } from "react-router-dom";
+import PageTransition from "@/common/PageTransition";
+import { AnimatePresence } from "framer-motion";
+import { Outlet, useLocation } from "react-router-dom";
 
 import AuthFooter from "src/common/AuthFooter";
 
@@ -6,10 +8,16 @@ import AuthFooter from "src/common/AuthFooter";
 import Navbar from "src/common/Navbar";
 
 const AuthLayout = () => {
+  const location = useLocation();
+
   return (
     <div className="flex h-full flex-col justify-between">
       <Navbar />
-      <Outlet />
+      <AnimatePresence mode="wait">
+        <PageTransition key={location.pathname}>
+          <Outlet />
+        </PageTransition>
+      </AnimatePresence>
       <AuthFooter />
     </div>
   );

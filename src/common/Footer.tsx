@@ -51,6 +51,10 @@ const quickLinks: QuickLink[] = [
     link: "/contact",
   },
   {
+    name: "FAQ",
+    link: "/faq",
+  },
+  {
     name: "Privacy Policy",
     link: "/",
   },
