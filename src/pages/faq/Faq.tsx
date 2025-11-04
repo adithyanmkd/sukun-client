@@ -30,7 +30,7 @@ const faqs = [
 
 const Faq = () => {
   return (
-    <div className="relative flex flex-col items-center py-8">
+    <div className="relative flex flex-col items-center pt-8">
       {/* Background Image */}
       <img src={FaqBg} alt="faq bg" />
 

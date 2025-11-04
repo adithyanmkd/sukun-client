@@ -1,6 +1,7 @@
 import { useState } from "react";
 import RegisterForm from "../components/RegisterForm";
 import RegisterBg from "@assets/images/registerPageBg.svg";
+import { Spinner } from "@/components/ui/spinner";
 
 const RegisterPage = () => {
   const [isImageLoaded, setIsImageLoaded] = useState(false);
@@ -13,7 +14,13 @@ const RegisterPage = () => {
         onLoad={() => setIsImageLoaded(true)}
         alt="register bg"
       />
-      {isImageLoaded && <RegisterForm />}
+      {isImageLoaded ? (
+        <RegisterForm />
+      ) : (
+        <div className="absolute flex items-center justify-center text-gray-500">
+          <Spinner className="size-8" />
+        </div>
+      )}
     </div>
   );
 };

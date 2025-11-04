@@ -1,6 +1,7 @@
 import { useState } from "react";
 import LoginForm from "../components/LoginForm";
 import LoginBg from "@assets/images/loginPageBg.svg";
+import { Spinner } from "@/components/ui/spinner";
 
 const Login = () => {
   const [isImageLoaded, setIsImagedLoaded] = useState(false);
@@ -13,7 +14,13 @@ const Login = () => {
         src={LoginBg}
         alt="register bg"
       />
-      {isImageLoaded && <LoginForm />}
+      {isImageLoaded ? (
+        <LoginForm />
+      ) : (
+        <div className="absolute flex items-center justify-center text-gray-500">
+          <Spinner className="size-8" />
+        </div>
+      )}
     </div>
   );
 };
