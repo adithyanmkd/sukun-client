@@ -1,4 +1,5 @@
 import HeroImage from "@assets/images/hero-image.svg";
+import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 
 const HeroSection = () => {
@@ -8,9 +9,15 @@ const HeroSection = () => {
         <img className="w-full" src={HeroImage} alt="hero image" />
       </div>
       <div className="relative w-full max-w-7xl">
-        <h1 className="max-w-[560px] text-6xl font-bold text-[#19191F]">
-          Find Your Tranquility with SUKUN
-        </h1>
+        <motion.h1
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, ease: "easeOut" }}
+        >
+          <h1 className="max-w-[560px] text-6xl font-bold text-[#19191F]">
+            Find Your Tranquility with SUKUN
+          </h1>
+        </motion.h1>
         <p className="text-primary max-w-[560px] pt-10 text-xl font-light">
           Your daily companion for an Islamic lifestyle. Learn, discover, and
           grow in your faith.
