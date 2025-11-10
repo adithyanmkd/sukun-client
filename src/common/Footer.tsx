@@ -56,11 +56,11 @@ const quickLinks: QuickLink[] = [
   },
   {
     name: "Privacy Policy",
-    link: "/",
+    link: "/privacy-policy",
   },
   {
     name: "Terms of Service",
-    link: "/",
+    link: "/terms-of-service",
   },
 ];
 

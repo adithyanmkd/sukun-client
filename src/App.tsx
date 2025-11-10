@@ -13,6 +13,8 @@ import ContactUs from "./pages/contactUs/ContactUs.tsx";
 import AllFeatures from "./pages/allFeatures/AllFeatures";
 import Faq from "./pages/faq/Faq";
 import PageNotFound from "./pages/PageNotFound.tsx";
+import TermsOfService from "./pages/TermsOfService.tsx";
+import PrivacyPolicy from "./pages/PrivacyPolicy.tsx";
 
 function App() {
   return (
@@ -28,6 +30,8 @@ function App() {
           <Route path="/contact" element={<ContactUs />} />
           <Route path="/all-features" element={<AllFeatures />} />
           <Route path="/faq" element={<Faq />} />
+          <Route path="/terms-of-service" element={<TermsOfService />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/*" element={<PageNotFound />} />
         </Route>
       </Routes>
