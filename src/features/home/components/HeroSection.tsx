@@ -13,10 +13,9 @@ const HeroSection = () => {
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, ease: "easeOut" }}
+          className="max-w-[560px] text-6xl font-bold text-[#19191F]"
         >
-          <h1 className="max-w-[560px] text-6xl font-bold text-[#19191F]">
-            Find Your Tranquility with SUKUN
-          </h1>
+          Find Your Tranquility with SUKUN
         </motion.h1>
         <p className="text-primary max-w-[560px] pt-10 text-xl font-light">
           Your daily companion for an Islamic lifestyle. Learn, discover, and

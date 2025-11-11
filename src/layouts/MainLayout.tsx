@@ -13,7 +13,7 @@ const MainLayout = () => {
     <div className="flex min-h-screen flex-col justify-between">
       <ScrollToTop />
       <Navbar />
-      <main className="flex-1">
+      <main className="flex flex-1 flex-col items-center justify-center">
         <AnimatePresence mode="wait">
           <PageTransition key={location.pathname}>
             <Outlet />

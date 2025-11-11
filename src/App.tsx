@@ -15,6 +15,7 @@ import Faq from "./pages/faq/Faq";
 import PageNotFound from "./pages/PageNotFound.tsx";
 import TermsOfService from "./pages/TermsOfService.tsx";
 import PrivacyPolicy from "./pages/PrivacyPolicy.tsx";
+import OTPVerify from "./features/auth/pages/OTPVerify.tsx";
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
           <Route path="/faq" element={<Faq />} />
           <Route path="/terms-of-service" element={<TermsOfService />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/otp-verify" element={<OTPVerify />} />
           <Route path="/*" element={<PageNotFound />} />
         </Route>
       </Routes>
