@@ -15,6 +15,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 
 import GoogleLogo from "@assets/icons/google-logo.svg";
+
 import {
   Form,
   FormControl,
@@ -50,7 +51,8 @@ const LoginForm = () => {
     },
   });
 
-  const handleOnSumbit = async (data: z.infer<typeof userFormSchema>) => {
+  // handle form submission
+  const handleOnSubmit = async (data: z.infer<typeof userFormSchema>) => {
     const { phone } = data;
     // console.log("phone:", phone);
 
@@ -77,7 +79,7 @@ const LoginForm = () => {
       </CardHeader>
 
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(handleOnSumbit)}>
+        <form onSubmit={form.handleSubmit(handleOnSubmit)}>
           <CardContent className="flex flex-col gap-y-4 py-6">
             {/* Phone Field */}
             <FormField
@@ -90,7 +92,7 @@ const LoginForm = () => {
                     <Input
                       type="tel"
                       maxLength={10}
-                      className="utline-none bg-white focus-visible:ring-0 focus-visible:ring-offset-0"
+                      className="bg-white outline-none focus-visible:ring-0 focus-visible:ring-offset-0"
                       placeholder="Enter your phone number"
                       {...field}
                     />
@@ -129,6 +131,7 @@ const LoginForm = () => {
                 </FormItem>
               )}
             />
+
             {/* Submit Button (Only One!) */}
             <Button
               type="submit"
@@ -151,6 +154,7 @@ const LoginForm = () => {
               </span>
               Login with Google
             </Button>
+
             {/* Register Link */}
             <p className="mt-4 text-center text-sm text-white/80">
               Don't have an account?

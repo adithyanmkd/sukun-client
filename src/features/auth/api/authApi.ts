@@ -56,5 +56,9 @@ export const authApi = api.injectEndpoints({
   overrideExisting: false,
 });
 
-export const { useSendOtpMutation, useVerifyOtpMutation, useLoginMutation } =
-  authApi;
+export const {
+  useSendOtpMutation,
+  useVerifyOtpMutation,
+  useLoginMutation,
+  useRegisterMutation,
+} = authApi;
