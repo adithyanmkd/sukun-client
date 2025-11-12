@@ -6,8 +6,6 @@ import AuthLayout from "./layouts/AuthLayout";
 
 // import pages
 import HomePage from "./features/home/HomePage";
-import RegisterPage from "./features/auth/pages/RegisterPage";
-import Login from "./features/auth/pages/Login";
 import AboutUs from "./pages/aboutUs/AboutUs";
 import ContactUs from "./pages/contactUs/ContactUs.tsx";
 import AllFeatures from "./pages/allFeatures/AllFeatures";
@@ -15,14 +13,14 @@ import Faq from "./pages/faq/Faq";
 import PageNotFound from "./pages/PageNotFound.tsx";
 import TermsOfService from "./pages/TermsOfService.tsx";
 import PrivacyPolicy from "./pages/PrivacyPolicy.tsx";
-import OTPVerify from "./features/auth/pages/OTPVerify.tsx";
+import { OTPVerify, Login, Register } from "./features/auth/index.ts";
 
 function App() {
   return (
     <>
       <Routes>
         <Route path="/auth" element={<AuthLayout />}>
-          <Route path="register" element={<RegisterPage />} />
+          <Route path="register" element={<Register />} />
           <Route path="login" element={<Login />} />
         </Route>
         <Route element={<MainLayout />}>

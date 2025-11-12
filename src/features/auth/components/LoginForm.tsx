@@ -24,6 +24,9 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 
+import { useLoginMutation, useSendOtpMutation } from "../api/authApi";
+import { getErrorMessage } from "@/utils/getErrorMessage";
+
 const userFormSchema = z.object({
   phone: z
     .string()
@@ -35,6 +38,8 @@ const userFormSchema = z.object({
 
 const LoginForm = () => {
   const navigate = useNavigate();
+  const [sendOtp, { isLoading: isSendingOtp }] = useSendOtpMutation();
+  const [login, { isLoading: isLoggingIn }] = useLoginMutation();
 
   // 1. Define your form.
   const form = useForm<z.infer<typeof userFormSchema>>({
@@ -45,10 +50,21 @@ const LoginForm = () => {
     },
   });
 
-  const handleOnSumbit = (data: z.infer<typeof userFormSchema>) => {
-    console.log("phone number:", data);
+  const handleOnSumbit = async (data: z.infer<typeof userFormSchema>) => {
+    const { phone } = data;
+    // console.log("phone:", phone);
 
-    navigate("/otp-verify", { state: { phone: data.phone } });
+    try {
+      await login({ phone }).unwrap();
+      await sendOtp({ phone }).unwrap();
+
+      navigate("/otp-verify", { state: { phone: data.phone } });
+    } catch (error) {
+      form.setError("phone", {
+        type: "server",
+        message: getErrorMessage(error),
+      });
+    }
   };
 
   return (
@@ -116,9 +132,14 @@ const LoginForm = () => {
             {/* Submit Button (Only One!) */}
             <Button
               type="submit"
-              className="w-full cursor-pointer bg-[#FFC107] pt-4 text-black hover:bg-[#eeb300]"
+              disabled={isLoggingIn || isSendingOtp}
+              className="w-full cursor-pointer bg-[#FFC107] text-black hover:bg-[#eeb300]"
             >
-              Login
+              {isLoggingIn
+                ? "Checking number..."
+                : isSendingOtp
+                  ? "Sending OTP..."
+                  : "Continue"}
             </Button>
 
             <Button

@@ -22,6 +22,8 @@ interface OTPFormProps {
   onSubmit: (values: { pin: string }) => void;
   onBack: () => void;
   onResend: () => void;
+  isSumbitting?: boolean;
+  isResending?: boolean;
 }
 
 export default function OTPForm({
@@ -29,9 +31,10 @@ export default function OTPForm({
   onSubmit,
   onBack,
   onResend,
+  isSumbitting = false,
+  isResending = false,
 }: OTPFormProps) {
   const [countdown, setCountdown] = useState(60);
-  const [isResending, setIsResending] = useState(false);
 
   useEffect(() => {
     if (countdown === 0) return;
@@ -44,16 +47,8 @@ export default function OTPForm({
   }, [countdown]);
 
   const handleResend = async () => {
-    setIsResending(true);
-    try {
-      onResend();
-      setCountdown(60);
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    } catch (error) {
-      // Handle error if needed
-    } finally {
-      setIsResending(false);
-    }
+    onResend();
+    setCountdown(60);
   };
 
   return (
@@ -97,7 +92,7 @@ export default function OTPForm({
                             <InputOTPSlot
                               key={i}
                               index={i}
-                              className="h-12 w-12 rounded-lg border border-slate-300 bg-white text-lg font-medium text-slate-900 shadow-sm transition-all focus-within:border-blue-500 focus-within:ring-2 focus-within:ring-blue-500 focus-within:ring-offset-1 data-[invalid]:border-red-500 data-[invalid]:ring-2 data-[invalid]:ring-red-500"
+                              className="h-12 w-12 rounded-lg border border-slate-300 bg-white text-lg font-medium text-slate-900 shadow-sm transition-all focus-within:border-blue-500 focus-within:ring-2 focus-within:ring-blue-500 focus-within:ring-offset-1 data-invalid:border-red-500 data-invalid:ring-2 data-invalid:ring-red-500"
                             />
                           ))}
                         </InputOTPGroup>
@@ -114,9 +109,10 @@ export default function OTPForm({
 
             <Button
               type="submit"
+              disabled={isSumbitting}
               className="w-full rounded-lg bg-blue-600 py-3 text-sm font-medium text-white shadow-sm transition-all hover:bg-blue-700 focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 focus-visible:outline-none"
             >
-              Verify Code
+              {isSumbitting ? "Verifying..." : "Verify Code"}
             </Button>
           </form>
         </Form>

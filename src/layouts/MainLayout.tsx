@@ -4,7 +4,7 @@ import { AnimatePresence } from "framer-motion";
 import Navbar from "../common/Navbar";
 import Footer from "../common/Footer";
 import PageTransition from "@/common/PageTransition";
-import ScrollToTop from "@/utils/ScrollToTop";
+import ScrollToTop from "@/common/ScrollToTop";
 
 const MainLayout = () => {
   const location = useLocation();
