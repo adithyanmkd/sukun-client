@@ -73,7 +73,7 @@ const RegisterForm = () => {
 
       navigate("/otp-verify", { state: { phone: data.phone } });
     } catch (error) {
-      form.setError("root", {
+      form.setError("phone", {
         message: getErrorMessage(error),
       });
     }
@@ -139,6 +139,11 @@ const RegisterForm = () => {
           </CardContent>
 
           <CardFooter className="flex-col gap-2">
+            {form.formState.errors.root && (
+              <p className="text-red-500">
+                {form.formState.errors.root.message}
+              </p>
+            )}
             {/* Terms Checkbox */}
             <FormField
               control={form.control}
