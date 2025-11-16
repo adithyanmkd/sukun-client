@@ -9,15 +9,13 @@ import QuranicReminderBanner from "./components/QuranicReminderBanner";
 const HomePage = () => {
   return (
     <>
-      <div>
-        <HeroSection />
-        <CategorySection />
-        <FeaturedVideo />
-        <FeaturedTutorsSection />
-        <PopularNewsSection />
-        <OtherCategoriesSection />
-        <QuranicReminderBanner />
-      </div>
+      <HeroSection />
+      <CategorySection />
+      <FeaturedVideo />
+      <FeaturedTutorsSection />
+      <PopularNewsSection />
+      <OtherCategoriesSection />
+      <QuranicReminderBanner />
     </>
   );
 };

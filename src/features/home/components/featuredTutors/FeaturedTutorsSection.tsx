@@ -43,10 +43,14 @@ const FeaturedTutorsSection = () => {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-80px" }}
-          className="grid grid-cols-2 place-items-center gap-3 sm:grid-cols-3 sm:gap-4 md:grid-cols-4 md:gap-5 lg:grid-cols-5"
+          className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 md:grid-cols-4 md:gap-5 lg:grid-cols-5"
         >
           {tutors.map((tutor, index) => (
-            <motion.div key={index} variants={item} className="w-full">
+            <motion.div
+              key={index}
+              variants={item}
+              className="flex justify-center"
+            >
               <TutorCard {...tutor} />
             </motion.div>
           ))}

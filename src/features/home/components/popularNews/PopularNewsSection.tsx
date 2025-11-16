@@ -56,13 +56,13 @@ const PopularNewsSection = () => {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-80px" }}
-          className="grid grid-cols-1 place-items-center justify-center gap-4 sm:grid-cols-2 sm:gap-5 md:grid-cols-3 md:gap-5 lg:grid-cols-4 lg:gap-6"
+          className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 md:grid-cols-3 md:gap-5 lg:grid-cols-4 lg:gap-6"
         >
           {newsCollection.map((news, index) => (
             <motion.div
               key={index}
               variants={item}
-              className="w-full max-w-[280px]"
+              className="flex justify-center"
             >
               <NewsCard {...news} />
             </motion.div>
