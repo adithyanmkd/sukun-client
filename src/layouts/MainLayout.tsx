@@ -10,16 +10,18 @@ const MainLayout = () => {
   const location = useLocation();
 
   return (
-    <div className="flex min-h-screen flex-col justify-between">
+    <div className="flex min-h-screen flex-col">
       <ScrollToTop />
       <Navbar />
-      <main className="flex flex-1 flex-col items-center justify-center">
+
+      <main className="flex-1">
         <AnimatePresence mode="wait">
           <PageTransition key={location.pathname}>
             <Outlet />
           </PageTransition>
         </AnimatePresence>
       </main>
+
       <Footer />
     </div>
   );
