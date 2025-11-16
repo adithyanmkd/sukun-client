@@ -7,18 +7,27 @@ const RegisterPage = () => {
   const [isImageLoaded, setIsImageLoaded] = useState(false);
 
   return (
-    <div className="relative flex flex-col items-center justify-center">
+    <div className="relative flex min-h-screen w-full items-center justify-center overflow-hidden bg-gray-50 px-4 sm:px-6">
+      {/* Background – Full screen, behind */}
       <img
-        className="opacity-50"
         src={RegisterBg}
+        alt="register background"
+        loading="lazy"
         onLoad={() => setIsImageLoaded(true)}
-        alt="register bg"
+        className="absolute inset-0 h-full w-full object-cover opacity-50"
       />
-      {isImageLoaded ? (
-        <RegisterForm />
-      ) : (
-        <div className="absolute flex items-center justify-center text-gray-500">
-          <Spinner className="size-8" />
+
+      {/* Spinner */}
+      {!isImageLoaded && (
+        <div className="absolute inset-0 flex items-center justify-center">
+          <Spinner className="size-10 text-gray-500" />
+        </div>
+      )}
+
+      {/* Form – Centered, on top */}
+      {isImageLoaded && (
+        <div className="relative z-10 w-full max-w-md">
+          <RegisterForm />
         </div>
       )}
     </div>

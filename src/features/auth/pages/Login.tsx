@@ -4,21 +4,30 @@ import LoginBg from "@assets/images/loginPageBg.svg";
 import { Spinner } from "@/components/ui/spinner";
 
 const Login = () => {
-  const [isImageLoaded, setIsImagedLoaded] = useState(false);
+  const [isImageLoaded, setIsImageLoaded] = useState(false);
 
   return (
-    <div className="relative flex flex-col items-center justify-center">
+    <div className="relative flex min-h-screen w-full items-center justify-center overflow-hidden bg-gray-50 px-4 sm:px-6">
+      {/* Background Image – Full bleed */}
       <img
-        className="opacity-50"
-        onLoad={() => setIsImagedLoaded(true)}
         src={LoginBg}
-        alt="register bg"
+        alt="login background"
+        loading="lazy"
+        onLoad={() => setIsImageLoaded(true)}
+        className="absolute inset-0 h-full w-full object-cover opacity-50"
       />
-      {isImageLoaded ? (
-        <LoginForm />
-      ) : (
-        <div className="absolute flex items-center justify-center text-gray-500">
-          <Spinner className="size-8" />
+
+      {/* Spinner – Centered */}
+      {!isImageLoaded && (
+        <div className="absolute inset-0 flex items-center justify-center">
+          <Spinner className="size-10 text-gray-500" />
+        </div>
+      )}
+
+      {/* Form – Centered, Responsive */}
+      {isImageLoaded && (
+        <div className="relative z-10 w-full max-w-md">
+          <LoginForm />
         </div>
       )}
     </div>

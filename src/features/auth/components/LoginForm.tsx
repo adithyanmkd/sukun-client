@@ -13,9 +13,7 @@ import { Link, useNavigate } from "react-router-dom";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-
 import GoogleLogo from "@assets/icons/google-logo.svg";
-
 import {
   Form,
   FormControl,
@@ -24,7 +22,6 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-
 import { useLoginMutation, useSendOtpMutation } from "../api/authApi";
 import { getErrorMessage } from "@/utils/getErrorMessage";
 
@@ -37,29 +34,22 @@ const userFormSchema = z.object({
   }),
 });
 
+type FormValues = z.infer<typeof userFormSchema>;
+
 const LoginForm = () => {
   const navigate = useNavigate();
   const [sendOtp, { isLoading: isSendingOtp }] = useSendOtpMutation();
   const [login, { isLoading: isLoggingIn }] = useLoginMutation();
 
-  // 1. Define your form.
-  const form = useForm<z.infer<typeof userFormSchema>>({
+  const form = useForm<FormValues>({
     resolver: zodResolver(userFormSchema),
-    defaultValues: {
-      phone: "",
-      terms: false,
-    },
+    defaultValues: { phone: "", terms: false },
   });
 
-  // handle form submission
-  const handleOnSubmit = async (data: z.infer<typeof userFormSchema>) => {
-    const { phone } = data;
-    // console.log("phone:", phone);
-
+  const onSubmit = async (data: FormValues) => {
     try {
-      await login({ phone }).unwrap();
-      await sendOtp({ phone }).unwrap();
-
+      await login({ phone: data.phone }).unwrap();
+      await sendOtp({ phone: data.phone }).unwrap();
       navigate("/otp-verify", { state: { phone: data.phone } });
     } catch (error) {
       form.setError("phone", {
@@ -70,73 +60,79 @@ const LoginForm = () => {
   };
 
   return (
-    <Card className="absolute w-full max-w-sm bg-[#28A745]">
-      <CardHeader>
-        <CardTitle className="text-2xl">Login Now</CardTitle>
-        <CardDescription className="text-black">
+    <Card className="w-full max-w-[20rem] bg-[#28A745] shadow-2xl sm:max-w-88 md:max-w-[24rem]">
+      <CardHeader className="space-y-1 pb-3 sm:space-y-2 sm:pb-4">
+        <CardTitle className="text-lg font-bold sm:text-xl md:text-2xl">
+          Login Now
+        </CardTitle>
+        <CardDescription className="text-xs text-black sm:text-sm md:text-base">
           Welcome! Create your account to get started.
         </CardDescription>
       </CardHeader>
 
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(handleOnSubmit)}>
-          <CardContent className="flex flex-col gap-y-4 py-6">
-            {/* Phone Field */}
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="space-y-3 sm:space-y-4"
+        >
+          <CardContent className="space-y-3 pb-2 sm:space-y-4 sm:pb-3">
             <FormField
               control={form.control}
               name="phone"
               render={({ field }) => (
-                <FormItem className="grid gap-2">
-                  <FormLabel>Phone</FormLabel>
+                <FormItem className="grid gap-1.5 sm:gap-2">
+                  <FormLabel className="text-sm text-white sm:text-base">
+                    Phone
+                  </FormLabel>
                   <FormControl>
                     <Input
                       type="tel"
                       maxLength={10}
-                      className="bg-white outline-none focus-visible:ring-0 focus-visible:ring-offset-0"
                       placeholder="Enter your phone number"
+                      className="h-10 bg-white text-base placeholder:text-gray-500 focus-visible:ring-0 focus-visible:ring-offset-0 sm:h-11"
                       {...field}
                     />
                   </FormControl>
-                  <FormMessage />
+                  <FormMessage className="text-xs text-yellow-300 sm:text-sm" />
                 </FormItem>
               )}
             />
           </CardContent>
 
-          <CardFooter className="flex-col gap-y-2">
-            {/* Terms Checkbox */}
+          <CardFooter className="flex flex-col space-y-2 pt-1 sm:space-y-3">
             <FormField
               control={form.control}
               name="terms"
               render={({ field }) => (
-                <FormItem className="w-full">
-                  <div className="flex items-center gap-x-2">
+                <FormItem className="flex w-full flex-col items-start gap-1.5">
+                  {/* Checkbox + Label Row */}
+                  <div className="flex w-full items-center gap-2">
                     <FormControl>
                       <Checkbox
                         checked={field.value}
                         onCheckedChange={field.onChange}
                         id="terms"
-                        name="terms"
-                        className="border-white data-[state=checked]:border-yellow-500 data-[state=checked]:bg-yellow-500"
+                        className="size-4 border-white data-[state=checked]:border-yellow-500 data-[state=checked]:bg-yellow-500 data-[state=checked]:text-black sm:size-5"
                       />
                     </FormControl>
                     <FormLabel
                       htmlFor="terms"
-                      className="cursor-pointer text-sm text-white/90"
+                      className="cursor-pointer text-xs text-white/90 sm:text-sm"
                     >
                       Accept Terms & conditions
                     </FormLabel>
                   </div>
-                  <FormMessage />
+
+                  {/* Error Message – Below */}
+                  <FormMessage className="text-xs text-yellow-300" />
                 </FormItem>
               )}
             />
 
-            {/* Submit Button (Only One!) */}
             <Button
               type="submit"
               disabled={isLoggingIn || isSendingOtp}
-              className="w-full cursor-pointer bg-[#FFC107] text-black hover:bg-[#eeb300]"
+              className="h-10 w-full bg-[#FFC107] text-sm text-black hover:bg-[#eeb300] sm:h-11 sm:text-base"
             >
               {isLoggingIn
                 ? "Checking number..."
@@ -147,20 +143,19 @@ const LoginForm = () => {
 
             <Button
               variant="outline"
-              className="flex w-full cursor-pointer gap-x-4"
+              className="flex h-10 w-full items-center justify-center gap-3 border-white hover:bg-white/10 hover:text-white sm:h-11"
             >
-              <span>
-                <img className="w-7" src={GoogleLogo} alt="google logo" />
+              <img src={GoogleLogo} alt="google logo" className="h-5 w-5" />
+              <span className="text-xs font-medium sm:text-sm">
+                Login with Google
               </span>
-              Login with Google
             </Button>
 
-            {/* Register Link */}
-            <p className="mt-4 text-center text-sm text-white/80">
+            <p className="mt-3 text-center text-xs text-white/80 sm:mt-4 sm:text-sm">
               Don't have an account?
               <Link
                 to="/auth/register"
-                className="pl-1 font-semibold text-yellow-400 hover:underline"
+                className="pl-1 font-bold text-yellow-400 hover:underline"
               >
                 Register
               </Link>
