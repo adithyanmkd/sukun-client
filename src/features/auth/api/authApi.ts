@@ -1,4 +1,4 @@
-import { api } from "../../../app/apiSlice";
+import { api, type User } from "../../../app/apiSlice";
 
 type VerifyOtpRequest = {
   phone: string;
@@ -50,6 +50,12 @@ export const authApi = api.injectEndpoints({
         body: data,
       }),
     }),
+
+    // GET /users/me
+    me: builder.query<User, void>({
+      query: () => "/api/users/me",
+      providesTags: ["User"],
+    }),
   }),
 
   //   Prevents overriding existing endpoints in the same API slice
@@ -61,4 +67,5 @@ export const {
   useVerifyOtpMutation,
   useLoginMutation,
   useRegisterMutation,
+  useMeQuery,
 } = authApi;

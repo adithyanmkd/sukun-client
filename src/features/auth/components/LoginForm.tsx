@@ -10,7 +10,7 @@ import {
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Link, useNavigate } from "react-router-dom";
-import * as z from "zod";
+import { type MouseEvent } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import GoogleLogo from "@assets/icons/google-logo.svg";
@@ -25,28 +25,28 @@ import {
 import { useLoginMutation, useSendOtpMutation } from "../api/authApi";
 import { getErrorMessage } from "@/utils/getErrorMessage";
 
-const userFormSchema = z.object({
-  phone: z
-    .string()
-    .regex(/^[6-9]\d{9}$/, "Please enter a valid 10-digit mobile number"),
-  terms: z.boolean().refine((v) => v === true, {
-    message: "You must accept the Terms & Conditions",
-  }),
-});
-
-type FormValues = z.infer<typeof userFormSchema>;
+// import types
+import {
+  loginFormSchema,
+  type LoginSchemaInput,
+} from "../validations/loginSchema";
+import { useAppDispatch } from "@/app/hooks";
+import { loginWithGoogle } from "../authSlice";
 
 const LoginForm = () => {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
   const [sendOtp, { isLoading: isSendingOtp }] = useSendOtpMutation();
   const [login, { isLoading: isLoggingIn }] = useLoginMutation();
 
-  const form = useForm<FormValues>({
-    resolver: zodResolver(userFormSchema),
+  const form = useForm<LoginSchemaInput>({
+    resolver: zodResolver(loginFormSchema),
     defaultValues: { phone: "", terms: false },
   });
 
-  const onSubmit = async (data: FormValues) => {
+  // handle login with phone
+  const onSubmit = async (data: LoginSchemaInput) => {
     try {
       await login({ phone: data.phone }).unwrap();
       await sendOtp({ phone: data.phone }).unwrap();
@@ -57,6 +57,12 @@ const LoginForm = () => {
         message: getErrorMessage(error),
       });
     }
+  };
+
+  // handle login with google
+  const handleGoogleLogin = (e: MouseEvent) => {
+    e.preventDefault();
+    dispatch(loginWithGoogle());
   };
 
   return (
@@ -142,6 +148,7 @@ const LoginForm = () => {
             </Button>
 
             <Button
+              onClick={handleGoogleLogin}
               variant="outline"
               className="flex h-10 w-full items-center justify-center gap-3 border-white hover:bg-white/10 hover:text-white sm:h-11"
             >

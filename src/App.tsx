@@ -14,6 +14,8 @@ import PageNotFound from "./pages/PageNotFound.tsx";
 import TermsOfService from "./pages/TermsOfService.tsx";
 import PrivacyPolicy from "./pages/PrivacyPolicy.tsx";
 import { OTPVerify, Login, Register } from "./features/auth/index.ts";
+import GoogleCallback from "./features/auth/components/GoogleCallback.tsx";
+import GoogleCallbackFailure from "./features/auth/components/GoogleCallbackFailure.tsx";
 
 function App() {
   return (
@@ -22,6 +24,8 @@ function App() {
         <Route path="/auth" element={<AuthLayout />}>
           <Route path="register" element={<Register />} />
           <Route path="login" element={<Login />} />
+          <Route path="google/success" element={<GoogleCallback />} />
+          <Route path="google/failure" element={<GoogleCallbackFailure />} />
         </Route>
         <Route element={<MainLayout />}>
           <Route path="/" element={<HomePage />} />

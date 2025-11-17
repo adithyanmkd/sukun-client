@@ -1,3 +1,4 @@
+import { type MouseEvent } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -27,17 +28,22 @@ import {
   type RegisterSchema,
 } from "../validations/registerSchema";
 import { getErrorMessage } from "@/utils/getErrorMessage";
+import { useAppDispatch } from "@/app/hooks";
+import { loginWithGoogle } from "../authSlice";
 
 const RegisterForm = () => {
+  const navigate = useNavigate();
+  const dispath = useAppDispatch();
+
   const form = useForm<RegisterSchema>({
     resolver: zodResolver(registerSchema),
     defaultValues: { username: "", phone: "", terms: false },
   });
 
-  const navigate = useNavigate();
   const [register, { isLoading: isRegistering }] = useRegisterMutation();
   const [sendOtp, { isLoading: isSendingOtp }] = useSendOtpMutation();
 
+  // handle login with phone
   const onSubmit = async (data: RegisterSchema) => {
     try {
       await register({ phone: data.phone, username: data.username }).unwrap();
@@ -46,6 +52,12 @@ const RegisterForm = () => {
     } catch (error) {
       form.setError("phone", { message: getErrorMessage(error) });
     }
+  };
+
+  // handle register with google
+  const handleGoogleLogin = (e: MouseEvent) => {
+    e.preventDefault();
+    dispath(loginWithGoogle());
   };
 
   return (
@@ -145,6 +157,7 @@ const RegisterForm = () => {
             </Button>
 
             <Button
+              onClick={handleGoogleLogin}
               variant="outline"
               className="flex h-10 w-full items-center justify-center gap-3 border-white text-black hover:bg-white/10 sm:h-11"
             >
