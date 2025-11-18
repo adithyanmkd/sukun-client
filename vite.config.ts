@@ -5,6 +5,15 @@ import path from "path";
 
 // https://vite.dev/config/
 export default defineConfig({
+  server: {
+    proxy: {
+      "/qapi": {
+        target: "https://api.quran.com/api/v4",
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/qapi/, ""),
+      },
+    },
+  },
   plugins: [react(), tailwindcss()],
   resolve: {
     alias: {

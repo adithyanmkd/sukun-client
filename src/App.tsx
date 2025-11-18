@@ -13,9 +13,12 @@ import Faq from "./pages/faq/Faq";
 import PageNotFound from "./pages/PageNotFound.tsx";
 import TermsOfService from "./pages/TermsOfService.tsx";
 import PrivacyPolicy from "./pages/PrivacyPolicy.tsx";
+import QuranIndex from "./features/quran/pages/QuranIndex";
+
 import { OTPVerify, Login, Register } from "./features/auth/index.ts";
 import GoogleCallback from "./features/auth/components/GoogleCallback.tsx";
 import GoogleCallbackFailure from "./features/auth/components/GoogleCallbackFailure.tsx";
+import SurahReadPage from "./features/quran/pages/SurahReadPage.tsx";
 
 function App() {
   return (
@@ -36,6 +39,8 @@ function App() {
           <Route path="/terms-of-service" element={<TermsOfService />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/otp-verify" element={<OTPVerify />} />
+          <Route path="/quran" element={<QuranIndex />} />
+          <Route path="/quran/:id" element={<SurahReadPage />} />
           <Route path="/*" element={<PageNotFound />} />
         </Route>
       </Routes>
