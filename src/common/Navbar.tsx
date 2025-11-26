@@ -16,7 +16,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { AvatarImage, Avatar } from "@/components/ui/avatar";
+
+// import assets
+import AvatarPlaceholder from "@assets/icons/avatar.svg";
+
 import { useState } from "react";
+import { useAppSelector } from "@/app/hooks";
 
 const menus = [
   { name: "Home", href: "/" },
@@ -29,6 +35,7 @@ const menus = [
 const Navbar = () => {
   const [language, setLanguage] = useState("en");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const user = useAppSelector((state) => state.auth.user);
 
   return (
     <header className="sticky top-0 z-50 border-b border-gray-300 bg-white">
@@ -76,12 +83,20 @@ const Navbar = () => {
 
           <Bell size={22} className="cursor-pointer text-[#565D6D]" />
 
-          <Button
-            asChild
-            className="bg-[#2E8A56] text-sm hover:bg-[#1c7c46] lg:text-base"
-          >
-            <Link to="/auth/login">Login</Link>
-          </Button>
+          {user ? (
+            <Link to={"/profile/user"}>
+              <Avatar className="cursor-pointer">
+                <AvatarImage src={user?.avatar || AvatarPlaceholder} />
+              </Avatar>
+            </Link>
+          ) : (
+            <Button
+              asChild
+              className="bg-[#2E8A56] text-sm hover:bg-[#1c7c46] lg:text-base"
+            >
+              <Link to="/auth/login">Login</Link>
+            </Button>
+          )}
 
           <Select value={language} onValueChange={setLanguage}>
             <SelectTrigger className="w-[90px] text-xs lg:w-[110px] lg:text-sm">

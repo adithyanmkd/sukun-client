@@ -5,6 +5,7 @@ export interface User {
   _id: string;
   name: string;
   googleId?: string;
+  avatar?: string;
 }
 
 // base url

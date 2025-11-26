@@ -1,5 +1,4 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-// import { jwtDecode } from "jwt-decode";
 
 import type { User } from "@/app/apiSlice";
 
@@ -9,14 +8,6 @@ interface AuthState {
   isLoading: boolean;
   error: string | null;
 }
-
-// interface JWTPayload {
-//   id: string;
-//   name: string;
-//   email: string;
-//   iat?: number;
-//   exp?: number;
-// }
 
 const initialState: AuthState = {
   user: null,
@@ -28,8 +19,10 @@ const initialState: AuthState = {
 export const loginWithGoogle = createAsyncThunk(
   "auth/loginWithGoogle",
   async () => {
-    const url = import.meta.env.VITE_API_URL;
-    window.location.href = `${url}/google`;
+    // const url = import.meta.env.VITE_API_URL;
+    const tunnelUrl = import.meta.env.VITE_DEV_TUNNEL_URL;
+    console.log(tunnelUrl);
+    window.location.href = `${tunnelUrl}/google`;
   },
 );
 
