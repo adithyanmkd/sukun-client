@@ -19,10 +19,8 @@ const initialState: AuthState = {
 export const loginWithGoogle = createAsyncThunk(
   "auth/loginWithGoogle",
   async () => {
-    // const url = import.meta.env.VITE_API_URL;
-    const tunnelUrl = import.meta.env.VITE_DEV_TUNNEL_URL;
-    console.log(tunnelUrl);
-    window.location.href = `${tunnelUrl}/google`;
+    const url = import.meta.env.VITE_DEV_TUNNEL_URL;
+    window.location.href = `${url}/google`;
   },
 );
 

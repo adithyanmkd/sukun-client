@@ -4,12 +4,13 @@ import type { RootState } from "./store";
 export interface User {
   _id: string;
   name: string;
+  username: string;
   googleId?: string;
   avatar?: string;
 }
 
 // base url
-const url = import.meta.env.VITE_API_URL;
+const url = import.meta.env.VITE_DEV_TUNNEL_URL;
 
 export const api = createApi({
   baseQuery: fetchBaseQuery({
