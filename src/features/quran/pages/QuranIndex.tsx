@@ -1,104 +1,103 @@
 import { useState } from "react";
+import { useGetJuzListQuery, useGetSurahsQuery } from "../api/quranApi";
+import { useAppSelector } from "../../../app/hooks";
 
-import { useGetSurahsQuery } from "../api/quranApi";
-import { useDispatch, useSelector } from "react-redux";
-import { setRecentlyRead } from "../slices/readerSlice";
-import RecentlyReadCard from "../components/RecentlyReadCard";
 import SurahList from "../components/surahList/SurahList";
-import JuzList from "../components/juz/JuzList";
 import TabsFilter from "../components/TabFilter";
-import {
-  type Surah,
-  type RecentlyReadItem,
-  useGetJuzListQuery,
-} from "../api/quranApi";
+
+import { type Surah } from "../api/quranApi";
+import JuzList from "../components/juz/JuzList";
+
+const PAGE_SIZE = 10;
 
 export default function QuranIndex() {
-  const { data, isLoading } = useGetSurahsQuery();
-  const { data: juzData } = useGetJuzListQuery();
+  const {
+    data: surahData,
+    isLoading: isSuarhLoading,
+    isError: isSurahError,
+  } = useGetSurahsQuery();
 
-  const dispatch = useDispatch();
-  const recentlyRead = useSelector(
-    (state: { reader: { recentlyRead: RecentlyReadItem | null } }) =>
-      state.reader.recentlyRead,
-  );
+  const {
+    data: juzData,
+    isLoading: isJuzLoading,
+    isError: isJuzError,
+  } = useGetJuzListQuery();
 
-  const bookmarks = useSelector(
+  const bookmarks = useAppSelector(
     (state: { bookmarks: { items: number[] } }) => state.bookmarks.items,
   );
 
-  const [visibleCount, setVisibleCount] = useState(10);
+  const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
   const [filter, setFilter] = useState("surah");
 
-  const surahs: Surah[] = data?.chapters ?? [];
+  const surahs: Surah[] = surahData?.chapters ?? [];
+  const juzList = juzData?.juzs ?? [];
 
-  let filteredList = surahs;
+  let filteredList = [];
 
-  if (filter === "surah") {
-    filteredList = surahs;
+  switch (filter) {
+    case "bookmark":
+      filteredList = surahs.filter((s) => bookmarks.includes(s.id));
+      break;
+    case "juz":
+      filteredList = juzList;
+      break;
+    case "surah":
+      filteredList = surahs;
+      break;
   }
 
-  if (filter === "juz") filteredList = juzData?.juzs ?? [];
-
-  if (filter === "bookmark") {
-    filteredList = surahs.filter((s) => bookmarks.includes(s.id));
-  }
+  const visibleItems = filteredList.slice(0, visibleCount);
 
   const handleLoadMore = () => {
-    setVisibleCount((prev) => prev + 10);
+    setVisibleCount((prev) => prev + PAGE_SIZE);
   };
 
-  function handleSelectSurah(surah: Surah) {
-    dispatch(
-      setRecentlyRead({
-        surahId: surah.id,
-        surahName: surah.name_simple,
-        ayah: 1,
-        progress: 0,
-      }),
+  const handleSetFilter = (value: string) => {
+    if (value === "bookmark" || value === "surah" || value === "juz") {
+      setFilter(value as "surah" | "bookmark" | "juz");
+    }
+    setVisibleCount(PAGE_SIZE);
+  };
+
+  // ---------------- LOADING / ERROR ----------------
+  if (isSuarhLoading || isJuzLoading) {
+    return <div className="py-8 text-center">Loading...</div>;
+  }
+
+  if (isSurahError || isJuzError) {
+    return (
+      <div className="py-8 text-center text-red-600">
+        Failed to load Quran data. Please try again.
+      </div>
     );
   }
 
   return (
     <div className="mx-auto max-w-3xl p-4">
-      {/* Global Quran Progress */}
-      <div className="mb-6">
-        <h2 className="mb-2 text-lg font-semibold">Your Quran Progress</h2>
-        <div className="h-3 w-full overflow-hidden rounded-full bg-gray-200">
-          <div
-            className="h-full rounded-full bg-yellow-500 transition-all"
-            style={{ width: `${recentlyRead?.progress || 0}%` }}
-          ></div>
-        </div>
-        <div className="mt-1 text-sm text-gray-600">
-          {recentlyRead?.progress || 0}% completed
-        </div>
-      </div>
-      <RecentlyReadCard item={recentlyRead} onContinue={() => {}} />
+      {/* Tabs to switch between Surah, Bookmark, and Juz views */}
+      <TabsFilter filter={filter} setFilter={handleSetFilter} />
 
-      <TabsFilter filter={filter} setFilter={setFilter} />
-
-      {isLoading ? (
-        <p>Loading...</p>
+      {filteredList.length === 0 ? (
+        <div className="py-8 text-center text-gray-600">
+          {filter === "bookmark"
+            ? "No bookmarked Surahs yet."
+            : filter === "juz"
+              ? "No Juz data available."
+              : "No Surahs found."}
+        </div>
+      ) : filter === "juz" ? (
+        <JuzList data={visibleItems} />
       ) : (
-        <>
-          {filter === "juz" ? (
-            <JuzList data={filteredList.slice(0, visibleCount)} />
-          ) : (
-            <SurahList
-              data={filteredList.slice(0, visibleCount)}
-              onSelect={handleSelectSurah}
-            />
-          )}
-          {visibleCount < filteredList.length && (
-            <button
-              onClick={handleLoadMore}
-              className="mt-4 w-full rounded-lg bg-green-600 py-2 text-white hover:bg-green-700"
-            >
-              Load More
-            </button>
-          )}
-        </>
+        <SurahList data={visibleItems} />
+      )}
+      {visibleCount < filteredList.length && (
+        <button
+          onClick={handleLoadMore}
+          className="mt-4 w-full rounded-lg bg-green-600 py-2 text-white hover:bg-green-700"
+        >
+          Load More
+        </button>
       )}
     </div>
   );

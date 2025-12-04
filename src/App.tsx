@@ -52,7 +52,7 @@ function App() {
 
           {/* Quran pages */}
           <Route path="/quran" element={<QuranIndex />} />
-          <Route path="/quran/:id" element={<SurahReadPage />} />
+          <Route path="/surah/:id" element={<SurahReadPage />} />
 
           {/* 404 */}
           <Route path="/*" element={<PageNotFound />} />

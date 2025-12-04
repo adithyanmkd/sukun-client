@@ -1,14 +1,19 @@
-import { useParams } from "react-router-dom";
-import { useGetSurahAyahsQuery, useGetSurahsQuery } from "../api/quranApi";
+import { useNavigate, useParams } from "react-router-dom";
+import {
+  useGetSurahAyahsQuery,
+  useGetSurahsQuery,
+  type Surah,
+} from "../api/quranApi";
 import AyahItem from "../components/read/AyahItem";
 import { ArrowLeft } from "lucide-react";
 
 export default function SurahReadPage() {
   const { id } = useParams();
+  const navigate = useNavigate();
   const surahId = Number(id);
 
   const { data: surahData } = useGetSurahsQuery();
-  const surah = surahData?.chapters?.find((s: any) => s.id === surahId);
+  const surah = surahData?.chapters?.find((s: Surah) => s.id === surahId);
 
   const { data, isLoading } = useGetSurahAyahsQuery(surahId);
 
@@ -17,7 +22,7 @@ export default function SurahReadPage() {
   return (
     <div className="mx-auto max-w-3xl p-4">
       <header className="mb-4 flex items-center gap-3">
-        <button onClick={() => history.back()}>
+        <button onClick={() => navigate(-1)}>
           <ArrowLeft className="h-6 w-6" />
         </button>
 

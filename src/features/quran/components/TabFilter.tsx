@@ -1,12 +1,11 @@
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-export default function TabsFilter({
-  filter,
-  setFilter,
-}: {
+type Props = {
   filter: string;
-  setFilter: (v: string) => void;
-}) {
+  setFilter: (value: string) => void;
+};
+
+export default function TabsFilter({ filter, setFilter }: Props) {
   return (
     <Tabs value={filter} onValueChange={setFilter} className="mb-6 w-full">
       <TabsList className="mx-auto flex w-max gap-2 rounded-full bg-gray-100 p-1">
