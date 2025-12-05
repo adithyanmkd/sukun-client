@@ -1,4 +1,5 @@
 import { api, type User } from "../../../app/apiSlice";
+import { setCredentials } from "../authSlice";
 
 type VerifyOtpRequest = {
   phone: string;
@@ -40,6 +41,15 @@ export const authApi = api.injectEndpoints({
         method: "POST",
         body: data,
       }),
+
+      async onQueryStarted(_arg, { dispatch, queryFulfilled }) {
+        try {
+          const { data } = await queryFulfilled;
+          dispatch(setCredentials(data));
+        } catch (error) {
+          console.log("Login error:", error);
+        }
+      },
     }),
 
     // register API endpoint
@@ -49,6 +59,15 @@ export const authApi = api.injectEndpoints({
         method: "POST",
         body: data,
       }),
+
+      async onQueryStarted(_arg, { dispatch, queryFulfilled }) {
+        try {
+          const { data } = await queryFulfilled;
+          dispatch(setCredentials(data));
+        } catch (error) {
+          console.log("Register error:", error);
+        }
+      },
     }),
 
     // GET /users/me
@@ -58,7 +77,7 @@ export const authApi = api.injectEndpoints({
     }),
   }),
 
-  //   Prevents overriding existing endpoints in the same API slice
+  // Prevents overriding existing endpoints in the same API slice
   overrideExisting: false,
 });
 
