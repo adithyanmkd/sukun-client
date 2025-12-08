@@ -56,7 +56,7 @@ const OTPVerify = () => {
   const handleOnBack = () => navigate(-1);
 
   return (
-    <div>
+    <div className="flex min-h-screen bg-gray-100">
       <OTPForm
         form={form}
         onBack={handleOnBack}

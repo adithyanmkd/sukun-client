@@ -1,8 +1,8 @@
 import { Outlet } from "react-router-dom";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import ProfileSidebar from "../components/profileSidebar/ProfileSidebar";
-import Navbar from "@/common/Navbar";
-import Footer from "@/common/Footer";
+import Navbar from "@/components/common/Navbar";
+import Footer from "@/components/common/Footer";
 
 const ProfileLayout = () => {
   return (

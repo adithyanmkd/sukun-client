@@ -1,4 +1,4 @@
-import { api, type User } from "../../../app/apiSlice";
+import { api, type User } from "@/app/apiSlice";
 import { setCredentials } from "../authSlice";
 
 type VerifyOtpRequest = {

@@ -1,10 +1,10 @@
 import { Outlet, useLocation } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 
-import Navbar from "../common/Navbar";
-import Footer from "../common/Footer";
-import PageTransition from "@/common/PageTransition";
-import ScrollToTop from "@/common/ScrollToTop";
+import Navbar from "../components/common/Navbar";
+import Footer from "../components/common/Footer";
+import PageTransition from "@/components/common/PageTransition";
+import ScrollToTop from "@/components/common/ScrollToTop";
 
 const MainLayout = () => {
   const location = useLocation();

@@ -7,16 +7,7 @@ interface PageTransitionProps {
 
 const PageTransition = ({ children }: PageTransitionProps) => {
   return (
-    <motion.div
-      // initial={{ opacity: 0 }}
-      // animate={{ opacity: 1 }}
-      // exit={{ opacity: 0 }}
-      // transition={{
-      //   opacity: { duration: 0.25 },
-      //   layout: { duration: 0.25, ease: "easeOut" },
-      // }}
-      className="w-full"
-    >
+    <motion.div className="w-full">
       <div className="w-full">{children}</div>
     </motion.div>
   );

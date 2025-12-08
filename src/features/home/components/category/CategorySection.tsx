@@ -18,7 +18,7 @@ import {
 import masjidIcon from "@assets/icons/masjid.svg";
 
 const categories = [
-  { name: "Quran", icon: BookOpen, link: "/" },
+  { name: "Quran", icon: BookOpen, link: "/quran" },
   { name: "News", icon: Newspaper, link: "/" },
   { name: "Videos", icon: Video, link: "/" },
   { name: "Discover", icon: Search, link: "/" },

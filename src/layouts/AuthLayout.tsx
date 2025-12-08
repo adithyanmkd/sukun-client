@@ -1,11 +1,11 @@
-import PageTransition from "@/common/PageTransition";
+import PageTransition from "@/components/common/PageTransition";
 import { AnimatePresence } from "framer-motion";
 import { Outlet, useLocation } from "react-router-dom";
 
-import AuthFooter from "src/common/AuthFooter";
+import AuthFooter from "@/components/common/AuthFooter";
 
 // import components
-import Navbar from "src/common/Navbar";
+import Navbar from "@/components/common/Navbar";
 
 const AuthLayout = () => {
   const location = useLocation();

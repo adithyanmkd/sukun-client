@@ -26,6 +26,10 @@ import Profile from "./features/profile/pages/Profile.tsx";
 import { OTPVerify, Login, Register } from "./features/auth/index.ts";
 import GoogleCallback from "./features/auth/components/GoogleCallback.tsx";
 import GoogleCallbackFailure from "./features/auth/components/GoogleCallbackFailure.tsx";
+import AdminLayout from "./layouts/AdminLayout.tsx";
+import DashboardPage from "./features/admin/dashboard/DashboardPage.tsx";
+import NewsListPage from "./features/admin/news/pages/NewsListPage.tsx";
+import CategoryListPage from "./features/admin/news/pages/CategoryListPage.tsx";
 
 function App() {
   return (
@@ -56,6 +60,13 @@ function App() {
 
           {/* 404 */}
           <Route path="/*" element={<PageNotFound />} />
+        </Route>
+
+        {/* PRIVATE PAGES WITH ADMIN LAYOUT */}
+        <Route path="/admin" element={<AdminLayout />}>
+          <Route index element={<DashboardPage />} />
+          <Route path="news" element={<NewsListPage />} />
+          <Route path="category" element={<CategoryListPage />} />
         </Route>
 
         {/* PROFILE PAGES WITH ProfileLayout */}
