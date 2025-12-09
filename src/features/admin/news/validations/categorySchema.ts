@@ -1,7 +1,7 @@
 import * as z from "zod";
 
 export const categoryFormSchema = z.object({
-  category: z
+  name: z
     .string()
     .min(3, "Category name must be at least 3 characters")
     .max(100, "Category name cannot exceed 100 characters"),

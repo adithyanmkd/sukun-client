@@ -1,6 +1,9 @@
+import { useNavigate } from "react-router-dom";
+
 import {
   Sidebar,
   SidebarContent,
+  SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
   SidebarMenu,
@@ -10,9 +13,20 @@ import {
 import { sidebarItems } from "./sidebarItems"; // data
 import { Link, useLocation } from "react-router-dom";
 import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+
+import { logout } from "@/features/auth/authSlice";
+import { useAppDispatch } from "@/app/hooks";
 
 const ProfileSidebar = () => {
   const { pathname: currentPath } = useLocation();
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    dispatch(logout());
+    navigate("/");
+  };
 
   return (
     <Sidebar className="sticky h-full" variant="sidebar" collapsible="icon">
@@ -44,6 +58,11 @@ const ProfileSidebar = () => {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
+      <SidebarFooter>
+        <Button onClick={handleLogout} variant="destructive">
+          Logout
+        </Button>
+      </SidebarFooter>
     </Sidebar>
   );
 };

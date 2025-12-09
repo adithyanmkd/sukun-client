@@ -1,15 +1,25 @@
 import { api, type User } from "@/app/apiSlice";
 import { setCredentials } from "../authSlice";
 
+// ----------- types -----------
+
 type VerifyOtpRequest = {
   phone: string;
   otp: string;
 };
 
 type VerifyOtpResponse = {
-  status: number;
+  success: boolean;
+  message: string;
   data: {
-    message: string;
+    token: string;
+    user: {
+      id: string;
+      username: string;
+      phone: string | null | undefined;
+      email: string | null | undefined;
+      avatar: string;
+    };
   };
 };
 
@@ -63,6 +73,7 @@ export const authApi = api.injectEndpoints({
       async onQueryStarted(_arg, { dispatch, queryFulfilled }) {
         try {
           const { data } = await queryFulfilled;
+
           dispatch(setCredentials(data));
         } catch (error) {
           console.log("Register error:", error);

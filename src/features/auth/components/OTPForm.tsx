@@ -122,7 +122,9 @@ export default function OTPForm({
           {countdown > 0 ? (
             <p className="text-xs text-slate-500">
               Resend code in
-              <span className="font-medium text-slate-700">{countdown}s</span>
+              <span className="ml-1 font-medium text-slate-700">
+                {countdown}s
+              </span>
             </p>
           ) : (
             <button

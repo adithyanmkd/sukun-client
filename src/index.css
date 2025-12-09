@@ -4,7 +4,8 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme {
-  --color-primary: #171a1f;
+  --color-primary-green: #2e8a56;
+  --color-primary-green-hover: #229e58;
 }
 
 @layer base {

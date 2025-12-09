@@ -37,12 +37,13 @@ const AddCategoryModal = () => {
   const form = useForm<CategoryFormInput>({
     resolver: zodResolver(categoryFormSchema),
     defaultValues: {
-      category: "",
+      name: "",
     },
   });
 
   const onSubmit = async (data: CategoryFormInput) => {
     try {
+      console.log(data);
       await addCategory(data).unwrap();
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -94,7 +95,7 @@ const AddCategoryModal = () => {
             <FieldGroup>
               {/* category field */}
               <Controller
-                name="category"
+                name="name"
                 control={form.control}
                 render={({ field, fieldState }) => (
                   <Field data-invalid={fieldState.invalid}>

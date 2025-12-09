@@ -7,6 +7,8 @@ import {
   useSendOtpMutation,
   useVerifyOtpMutation,
 } from "../../auth/api/authApi";
+import { setCredentials } from "../../auth/authSlice";
+import { useAppDispatch } from "@/app/hooks";
 
 // import components
 import OTPForm from "../components/OTPForm";
@@ -19,6 +21,8 @@ const otpSchema = z.object({
 const OTPVerify = () => {
   const { state } = useLocation();
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
   const phone = state?.phone as string;
 
   const [sendOtp, { isLoading: isResending }] = useSendOtpMutation();
@@ -34,7 +38,9 @@ const OTPVerify = () => {
 
   const handleOnSubmit = async (data: { pin: string }) => {
     try {
-      await verifyOtp({ phone, otp: data.pin }).unwrap();
+      const response = await verifyOtp({ phone, otp: data.pin }).unwrap();
+      dispatch(setCredentials(response.data));
+
       navigate("/");
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
