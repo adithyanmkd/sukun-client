@@ -1,25 +1,52 @@
-import { Pencil, Trash2 } from "lucide-react";
 import AddCategoryModal from "../components/modals/AddCategoryModal";
+import { useFetchCategoriesQuery } from "../api/newsApi";
+import CategoryList from "../components/CategoryList";
+import { Spinner } from "@/components/ui/spinner";
 
 const CategoryListPage = () => {
-  const categories = [
-    { id: 1, name: "Electronics" },
-    { id: 2, name: "Clothing" },
-    { id: 3, name: "Home & Garden" },
-    { id: 4, name: "Books" },
-    { id: 5, name: "Sports" },
-    { id: 6, name: "Toys & Games" },
-    { id: 7, name: "Food & Beverages" },
-    { id: 8, name: "Beauty & Personal Care" },
-  ];
+  const { data, isLoading, isError, error } = useFetchCategoriesQuery();
 
-  const handleEdit = (item: { id: number; name: string }) => {
-    console.log("Edit:", item);
-  };
+  if (isLoading) {
+    return (
+      <div className="flex h-[60vh] flex-col items-center justify-center gap-3">
+        <Spinner className="size-10" />
+        <p className="text-sm text-gray-500">Loading categories…</p>
+      </div>
+    );
+  }
 
-  const handleDelete = (id: number) => {
-    console.log("Delete:", id);
-  };
+  if (isError) {
+    console.log(error);
+
+    return (
+      <div className="flex h-[60vh] flex-col items-center justify-center text-center">
+        <p className="text-lg font-semibold text-red-600">
+          Failed to load categories
+        </p>
+        <p className="mt-1 text-sm text-gray-500">
+          Please refresh the page or try again later.
+        </p>
+      </div>
+    );
+  }
+
+  if (!data) return null;
+
+  const categories = data.data;
+
+  if (categories.length === 0) {
+    return (
+      <div className="flex h-[60vh] flex-col items-center justify-center text-center">
+        <p className="text-lg font-medium text-gray-700">No categories found</p>
+        <p className="mt-1 text-sm text-gray-500">
+          Create your first category to organize news content.
+        </p>
+        <div className="mt-4">
+          <AddCategoryModal />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gray-50 p-8">
@@ -29,51 +56,7 @@ const CategoryListPage = () => {
           {/* add category modal */}
           <AddCategoryModal />
         </div>
-
-        <div className="overflow-hidden rounded-lg bg-white shadow">
-          <table className="w-full">
-            <thead className="border-b bg-gray-100">
-              <tr>
-                {["ID", "Name", "Actions"].map((val, index) => (
-                  <th
-                    key={index}
-                    className="px-6 py-3 text-left text-sm font-semibold text-gray-600"
-                  >
-                    {val}
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {categories.map((item) => (
-                <tr key={item.id} className="border-b hover:bg-gray-50">
-                  <td className="px-6 py-4 text-sm text-gray-800">{item.id}</td>
-                  <td className="px-6 py-4 text-sm text-gray-800">
-                    {item.name}
-                  </td>
-                  <td className="px-6 py-4">
-                    <div className="flex gap-3">
-                      <button
-                        onClick={() => handleEdit(item)}
-                        className="text-blue-600 transition hover:text-blue-800"
-                        title="Edit"
-                      >
-                        <Pencil size={18} />
-                      </button>
-                      <button
-                        onClick={() => handleDelete(item.id)}
-                        className="text-red-600 transition hover:text-red-800"
-                        title="Delete"
-                      >
-                        <Trash2 size={18} />
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+        <CategoryList categories={categories} />
       </div>
     </div>
   );

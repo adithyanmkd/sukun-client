@@ -17,13 +17,13 @@ export const api = createApi({
     baseUrl: url,
     prepareHeaders: (headers, { getState }) => {
       const token = (getState() as RootState).auth.token;
-      if (!token) {
+      if (token) {
         headers.set("Authorization", `Bearer ${token}`);
       }
 
       return headers;
     },
   }),
-  tagTypes: ["User"],
+  tagTypes: ["User", "Categories"],
   endpoints: () => ({}),
 });

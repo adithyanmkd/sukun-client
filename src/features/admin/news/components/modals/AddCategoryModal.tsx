@@ -43,13 +43,11 @@ const AddCategoryModal = () => {
 
   const onSubmit = async (data: CategoryFormInput) => {
     try {
-      console.log(data);
       await addCategory(data).unwrap();
-
+      setOpen(false); // close modal
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       console.error("Add category failed:", error);
-
       // handle backend error
       setServerError(error?.data?.message || "Failed to add category");
 
@@ -104,6 +102,7 @@ const AddCategoryModal = () => {
                       {...field}
                       aria-invalid={fieldState.invalid}
                       placeholder="Enter category name"
+                      autoComplete="off"
                     />
                     {fieldState.invalid && (
                       <FieldError errors={[fieldState.error]} />

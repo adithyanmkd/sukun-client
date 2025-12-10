@@ -1,9 +1,13 @@
 import Banner from "@assets/images/coverImage.svg";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useAppSelector } from "@/app/hooks";
+import UploadAvatarModal from "../components/modals/UploadAvatarModal";
+import { useState } from "react";
 
 const Profile = () => {
   const user = useAppSelector((state) => state.auth.user);
+
+  const [openAvatarModal, setOpenAvatarModal] = useState(false);
 
   if (!user) return <div>Loading...</div>;
 
@@ -19,12 +23,22 @@ const Profile = () => {
 
         {/* Avatar positioned on the bottom of the banner */}
         <div className="w-full -translate-y-16">
-          <Avatar className="mx-auto size-32 ring-4 ring-white md:h-40 md:w-40">
+          <Avatar
+            onClick={() => setOpenAvatarModal(true)}
+            className="mx-auto size-32 cursor-pointer ring-4 ring-white md:h-40 md:w-40"
+          >
             <AvatarImage src={user.avatar} />
             <AvatarFallback>AR</AvatarFallback>
           </Avatar>
         </div>
       </div>
+
+      {/* user avatar upload modal */}
+      <UploadAvatarModal
+        open={openAvatarModal}
+        onOpenChange={setOpenAvatarModal}
+      />
+
       {/* user profile details */}
       <div>
         <h3 className="text-center text-3xl font-bold text-[#67686C]">

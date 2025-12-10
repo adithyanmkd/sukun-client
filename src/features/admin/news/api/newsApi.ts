@@ -1,4 +1,13 @@
 import { api } from "@/app/apiSlice";
+import type { Category } from "../components/CategoryList";
+
+export type ApiResponse<T> = {
+  success: boolean;
+  message: string;
+  data: T;
+};
+
+export type CategoriesResponse = ApiResponse<Category[]>;
 
 export const newsApi = api.injectEndpoints({
   endpoints: (builder) => ({
@@ -11,6 +20,7 @@ export const newsApi = api.injectEndpoints({
         method: "POST",
         body: data,
       }),
+      invalidatesTags: ["Categories"],
     }),
 
     // update category
@@ -29,6 +39,14 @@ export const newsApi = api.injectEndpoints({
         method: "DELETE",
       }),
     }),
+
+    // Get all categories
+    fetchCategories: builder.query<CategoriesResponse, void>({
+      query: () => ({
+        url: "/api/admin/categories",
+      }),
+      providesTags: ["Categories"],
+    }),
   }),
 
   // -------- NEWS APIs ----------
@@ -41,4 +59,5 @@ export const {
   useAddCategoryMutation,
   useUpdateCategoryMutation,
   useDeleteCategoryMutation,
+  useFetchCategoriesQuery,
 } = newsApi;
