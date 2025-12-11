@@ -24,20 +24,67 @@ export const newsApi = api.injectEndpoints({
     }),
 
     // update category
-    updateCategory: builder.mutation({
+    updateCategory: builder.mutation<
+      CategoriesResponse,
+      { id: string; data: { name: string } }
+    >({
       query: ({ id, data }) => ({
         url: `/api/admin/categories/${id}`,
         method: "PUT",
         body: data,
       }),
+      invalidatesTags: ["Categories"],
+      //   async onQueryStarted({ id, data }, { dispatch, queryFulfilled }) {
+      //     const patchResult = dispatch(
+      //       newsApi.util.updateQueryData(
+      //         "fetchCategories",
+      //         undefined,
+      //         (draft) => {
+      //           const category = draft.data.find((cat) => cat._id === id);
+      //           if (category) {
+      //             category.name = data.name;
+      //           }
+      //         },
+      //       ),
+      //     );
+
+      //     try {
+      //       await queryFulfilled; // commit
+      //     } catch {
+      //       patchResult.undo(); // rollback on error
+      //     }
+      //   },
     }),
 
     // delete category
     deleteCategory: builder.mutation({
-      query: ({ id }) => ({
-        url: `/api/admin/categories/${id}`,
+      query: ({ _id }) => ({
+        url: `/api/admin/categories/${_id}`,
         method: "DELETE",
       }),
+
+      // invalidatesTags: ["Categories"],
+      async onQueryStarted(deletedItem, { dispatch, queryFulfilled }) {
+        const patchResult = dispatch(
+          newsApi.util.updateQueryData(
+            "fetchCategories",
+            undefined,
+            (draft) => {
+              if (draft?.data) {
+                draft.data = draft.data.filter(
+                  (cat) => cat._id !== deletedItem._id,
+                );
+              }
+            },
+          ),
+        );
+
+        try {
+          await queryFulfilled; // commit
+        } catch {
+          patchResult.undo(); // rollback if delete fails
+        }
+      },
     }),
 
     // Get all categories

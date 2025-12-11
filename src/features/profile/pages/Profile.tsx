@@ -3,6 +3,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useAppSelector } from "@/app/hooks";
 import UploadAvatarModal from "../components/modals/UploadAvatarModal";
 import { useState } from "react";
+import { Pencil } from "lucide-react";
 
 const Profile = () => {
   const user = useAppSelector((state) => state.auth.user);
@@ -23,13 +24,23 @@ const Profile = () => {
 
         {/* Avatar positioned on the bottom of the banner */}
         <div className="w-full -translate-y-16">
-          <Avatar
-            onClick={() => setOpenAvatarModal(true)}
-            className="mx-auto size-32 cursor-pointer ring-4 ring-white md:h-40 md:w-40"
-          >
-            <AvatarImage src={user.avatar} />
-            <AvatarFallback>AR</AvatarFallback>
-          </Avatar>
+          <div className="group relative mx-auto w-fit">
+            <Avatar
+              onClick={() => setOpenAvatarModal(true)}
+              className="size-32 cursor-pointer ring-4 ring-white md:h-40 md:w-40"
+            >
+              <AvatarImage src={user.avatar} />
+              <AvatarFallback>AR</AvatarFallback>
+            </Avatar>
+
+            {/* Edit icon */}
+            <div
+              onClick={() => setOpenAvatarModal(true)}
+              className="absolute right-1 bottom-1 flex size-8 cursor-pointer items-center justify-center rounded-full bg-white shadow transition hover:bg-gray-100"
+            >
+              <Pencil className="size-4 text-gray-600" />
+            </div>
+          </div>
         </div>
       </div>
 

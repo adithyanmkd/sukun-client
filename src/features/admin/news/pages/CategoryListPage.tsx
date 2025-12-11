@@ -53,6 +53,7 @@ const CategoryListPage = () => {
       <div className="mx-auto max-w-4xl">
         <div className="mb-6 flex items-center justify-between">
           <h1 className="text-3xl font-bold text-gray-800">Category List</h1>
+
           {/* add category modal */}
           <AddCategoryModal />
         </div>
