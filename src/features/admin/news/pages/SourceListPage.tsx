@@ -1,29 +1,35 @@
-import AddCategoryModal from "../components/modals/AddCategoryModal";
-import { useFetchCategoriesQuery } from "../api/newsApi";
-import CategoryList from "../components/CategoryList";
 import { Spinner } from "@/components/ui/spinner";
+import { useFetchSourceQuery } from "../api/sourcesApi";
+import AddSourceModal from "../components/modals/AddSourceModal";
+import SourceList from "../components/SourceList";
 
-const CategoryListPage = () => {
-  const { data, isLoading, isError, error } = useFetchCategoriesQuery();
+export type Source = {
+  _id: string;
+  name: string;
+  url: string;
+};
+
+const SourceListPage = () => {
+  const { data, isLoading, isError, error } = useFetchSourceQuery();
 
   // data loading handling
   if (isLoading) {
     return (
       <div className="flex h-[60vh] flex-col items-center justify-center gap-3">
         <Spinner className="size-10" />
-        <p className="text-sm text-gray-500">Loading categories…</p>
+        <p className="text-sm text-gray-500">Loading sources…</p>
       </div>
     );
   }
 
-  // data fetch error handling
+  // data error handling
   if (isError) {
     console.log(error);
 
     return (
       <div className="flex h-[60vh] flex-col items-center justify-center text-center">
         <p className="text-lg font-semibold text-red-600">
-          Failed to load categories
+          Failed to load sources
         </p>
         <p className="mt-1 text-sm text-gray-500">
           Please refresh the page or try again later.
@@ -32,17 +38,17 @@ const CategoryListPage = () => {
     );
   }
 
-  const categories = data?.data || [];
+  const sources = data?.data || [];
 
-  if (categories?.length === 0) {
+  if (!sources || sources.length === 0) {
     return (
       <div className="flex h-[60vh] flex-col items-center justify-center text-center">
-        <p className="text-lg font-medium text-gray-700">No categories found</p>
+        <p className="text-lg font-medium text-gray-700">No source found</p>
         <p className="mt-1 text-sm text-gray-500">
-          Create your first category to organize news content.
+          Create your first source to organize news content.
         </p>
         <div className="mt-4">
-          <AddCategoryModal />
+          <AddSourceModal />
         </div>
       </div>
     );
@@ -52,15 +58,14 @@ const CategoryListPage = () => {
     <div className="min-h-screen bg-gray-50 p-8">
       <div className="mx-auto max-w-4xl">
         <div className="mb-6 flex items-center justify-between">
-          <h1 className="text-3xl font-bold text-gray-800">Category List</h1>
-
-          {/* add category modal */}
-          <AddCategoryModal />
+          <h1 className="text-3xl font-bold text-gray-800">Source List</h1>
+          {/* Add source modal */}
+          <AddSourceModal />
         </div>
-        <CategoryList categories={categories} />
+        <SourceList sources={sources} />
       </div>
     </div>
   );
 };
 
-export default CategoryListPage;
+export default SourceListPage;

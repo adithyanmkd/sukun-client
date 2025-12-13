@@ -26,7 +26,7 @@ const data = {
         },
         {
           title: "Manage Sources",
-          url: "#",
+          url: "/admin/sources",
         },
       ],
     },

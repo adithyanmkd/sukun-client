@@ -23,7 +23,11 @@ import { Input } from "@/components/ui/input";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { DialogTitle } from "@radix-ui/react-dialog";
-import { useUpdateCategoryMutation } from "../../api/newsApi";
+
+import {
+  useFetchCategoriesQuery,
+  useUpdateCategoryMutation,
+} from "../../api/newsApi";
 
 type Props = {
   open: boolean;
@@ -33,6 +37,9 @@ type Props = {
 
 const EditCategoryModal = ({ open, onOpenChange, item }: Props) => {
   const [updateCategory, { isLoading }] = useUpdateCategoryMutation();
+  const { data: categoriesData } = useFetchCategoriesQuery(undefined, {
+    refetchOnMountOrArgChange: false, // only use cache
+  });
 
   const [serverError, setServerError] = useState<string | null>(null);
 
@@ -44,10 +51,23 @@ const EditCategoryModal = ({ open, onOpenChange, item }: Props) => {
   });
 
   const onSubmit = async (data: { name: string }) => {
+    const newName = data.name.trim().toLocaleLowerCase();
+    const existingCategories = categoriesData?.data || [];
+
+    const alreadyExists = existingCategories.some(
+      (cat) =>
+        cat.name.trim().toLocaleLowerCase() === newName && cat._id !== item._id, // exclude itself,
+    );
+
+    if (alreadyExists) {
+      setServerError("Category already exists");
+      return;
+    }
+
     try {
+      onOpenChange(false);
       const id = item._id;
       await updateCategory({ id, data: { name: data.name } }).unwrap();
-      onOpenChange(false);
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       console.error("Update category failed:", error);

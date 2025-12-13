@@ -4,7 +4,7 @@ import type { Category } from "../components/CategoryList";
 export type ApiResponse<T> = {
   success: boolean;
   message: string;
-  data: T;
+  data?: T;
 };
 
 export type CategoriesResponse = ApiResponse<Category[]>;
@@ -33,27 +33,29 @@ export const newsApi = api.injectEndpoints({
         method: "PUT",
         body: data,
       }),
-      invalidatesTags: ["Categories"],
-      //   async onQueryStarted({ id, data }, { dispatch, queryFulfilled }) {
-      //     const patchResult = dispatch(
-      //       newsApi.util.updateQueryData(
-      //         "fetchCategories",
-      //         undefined,
-      //         (draft) => {
-      //           const category = draft.data.find((cat) => cat._id === id);
-      //           if (category) {
-      //             category.name = data.name;
-      //           }
-      //         },
-      //       ),
-      //     );
+      // invalidatesTags: ["Categories"],
+      async onQueryStarted({ id, data }, { dispatch, queryFulfilled }) {
+        const patchResult = dispatch(
+          newsApi.util.updateQueryData(
+            "fetchCategories",
+            undefined,
+            (draft) => {
+              if (!draft.data) return;
 
-      //     try {
-      //       await queryFulfilled; // commit
-      //     } catch {
-      //       patchResult.undo(); // rollback on error
-      //     }
-      //   },
+              const category = draft.data.find((cat) => cat._id === id);
+              if (category) {
+                category.name = data.name;
+              }
+            },
+          ),
+        );
+
+        try {
+          await queryFulfilled; // commit
+        } catch {
+          patchResult.undo(); // rollback on error
+        }
+      },
     }),
 
     // delete category

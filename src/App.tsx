@@ -30,6 +30,7 @@ import AdminLayout from "./layouts/AdminLayout.tsx";
 import DashboardPage from "./features/admin/dashboard/DashboardPage.tsx";
 import NewsListPage from "./features/admin/news/pages/NewsListPage.tsx";
 import CategoryListPage from "./features/admin/news/pages/CategoryListPage.tsx";
+import SourceListPage from "./features/admin/news/pages/SourceListPage.tsx";
 
 function App() {
   return (
@@ -67,6 +68,7 @@ function App() {
           <Route index element={<DashboardPage />} />
           <Route path="news" element={<NewsListPage />} />
           <Route path="category" element={<CategoryListPage />} />
+          <Route path="sources" element={<SourceListPage />} />
         </Route>
 
         {/* PROFILE PAGES WITH ProfileLayout */}
