@@ -1,11 +1,7 @@
 import { api } from "@/app/apiSlice";
 import type { Category } from "../components/CategoryList";
-
-export type ApiResponse<T> = {
-  success: boolean;
-  message: string;
-  data?: T;
-};
+import type { ApiResponse } from "@/types/api";
+import type { NewsSchemaInput } from "../validations/newsSchema";
 
 export type CategoriesResponse = ApiResponse<Category[]>;
 
@@ -96,10 +92,18 @@ export const newsApi = api.injectEndpoints({
       }),
       providesTags: ["Categories"],
     }),
+
+    // -------- NEWS APIs ----------
+
+    // add news
+    addNews: builder.mutation<ApiResponse<NewsSchemaInput>, NewsSchemaInput>({
+      query: (body) => ({
+        url: "/api/admin/news",
+        method: "POST",
+        body,
+      }),
+    }),
   }),
-
-  // -------- NEWS APIs ----------
-
   // Prevents overriding existing endpoints in the same API slice
   overrideExisting: false,
 });
@@ -109,4 +113,6 @@ export const {
   useUpdateCategoryMutation,
   useDeleteCategoryMutation,
   useFetchCategoriesQuery,
+
+  useAddNewsMutation,
 } = newsApi;

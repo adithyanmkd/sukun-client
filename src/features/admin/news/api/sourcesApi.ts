@@ -1,8 +1,8 @@
 import { api } from "@/app/apiSlice";
 
 import type { SourceFormInput } from "../validations/sourceSchema";
-import type { ApiResponse } from "./newsApi";
 import type { Source } from "../pages/SourceListPage";
+import type { ApiResponse } from "@/types/api";
 
 type AddSourceRequest = SourceFormInput;
 type AddSourceResponse = ApiResponse<Source>;

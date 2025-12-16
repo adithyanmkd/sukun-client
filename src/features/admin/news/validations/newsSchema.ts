@@ -10,6 +10,24 @@ export const newsFormSchema = z.object({
     .string()
     .min(10, "Description must be at least 10 characters")
     .max(2000, "Description cannot exceed 2000 characters"),
+  categoryId: z.string().min(1, "Category is required"),
+  sourceId: z.string().min(1, "Source is required"),
+  readMoreUrl: z
+    .string()
+    .url("Invalid url")
+    .refine((url) => {
+      try {
+        const parsed = new URL(url);
+        return parsed.hostname.includes(".");
+      } catch {
+        return false;
+      }
+    }),
+  imageUrl: z
+    .string()
+    .url("Please upload a valid image")
+    .optional()
+    .or(z.literal("")),
 });
 
 // for typescript

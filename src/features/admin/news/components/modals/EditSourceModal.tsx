@@ -71,8 +71,7 @@ const EditSourceModal = ({ open, onOpenChange, source }: Props) => {
     console.log(data);
     try {
       onOpenChange(false);
-      const res = await updateSource({ _id: source._id, ...data }).unwrap();
-      console.log(res);
+      await updateSource({ _id: source._id, ...data }).unwrap();
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       console.error(error);

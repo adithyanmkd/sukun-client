@@ -10,7 +10,15 @@ export interface User {
 }
 
 // base url
-const url = import.meta.env.VITE_DEV_TUNNEL_URL;
+let url;
+
+const env = import.meta.env;
+const mode = env.VITE_MODE;
+if (mode === "development") {
+  url = env.VITE_API_URL;
+} else {
+  url = env.VITE_DEV_TUNNEL_URL;
+}
 
 export const api = createApi({
   baseQuery: fetchBaseQuery({
