@@ -1,55 +1,78 @@
-import NewsList, { type News } from "../components/NewsList";
+import { useEffect, useState } from "react";
+import { ErrorBoundary } from "react-error-boundary";
+
+import { useFetchNewsQuery } from "../api/newsApi";
+
+import NewsList from "../components/NewsList";
+import NewsLoadingSkeleton from "../components/NewsLoadingSkelton";
 import AddNewsModal from "../components/modals/AddNewsModal";
+import NewsErrorPage from "./errors/NewsErrorPage";
+
+import type { NewsDto } from "../types";
+import NewsEmptyState from "../components/NewsEmptyState";
 
 const ListNewsPage = () => {
-  const newsData = [
-    {
-      id: 1,
-      title: "Tech Innovator Reveals New Device",
-      category: "Technology",
-      source: "Tech News",
-      dateCreated: "2024-01-15",
-    },
-    {
-      id: 2,
-      title: "Market Analysis: Q4 Results",
-      category: "Business",
-      source: "Financial Times",
-      dateCreated: "2024-01-14",
-    },
-    {
-      id: 3,
-      title: "Climate Summit Concludes",
-      category: "Environment",
-      source: "Global News",
-      dateCreated: "2024-01-13",
-    },
-  ];
+  // ------------------- api data -------------------
+  const {
+    data: news,
+    isLoading: isNewsLoading,
+    error: newsError,
+    refetch,
+  } = useFetchNewsQuery();
 
-  const handleOnEdit = (item: News) => {
+  console.log(news);
+
+  // ------------------- local state -------------------
+  const [showContent, setShowContent] = useState(false);
+  const [addNewsOpen, setAddNewsOpen] = useState(false);
+
+  const handleOnEdit = (item: NewsDto) => {
     // edit logic
     console.log(item);
   };
 
-  const handleOnDelete = (id: number) => {
+  const handleOnDelete = (id: string) => {
     console.log(id);
     // delete logic
   };
-  return (
-    <div className="p-6">
-      <div className="mx-auto max-w-7xl">
-        <div className="mb-6 flex items-center justify-between">
-          <h1 className="text-3xl font-bold text-gray-800">News Management</h1>
-          <AddNewsModal />
-        </div>
 
-        <NewsList
-          news={newsData}
-          onEdit={handleOnEdit}
-          onDelete={handleOnDelete}
-        />
+  useEffect(() => {
+    if (!isNewsLoading) {
+      const timer = setTimeout(() => {
+        setShowContent(true);
+      }, 400);
+
+      return () => clearInterval(timer);
+    }
+  }, [isNewsLoading]);
+
+  return (
+    <ErrorBoundary fallback={<NewsErrorPage onRetry={refetch} />}>
+      <div className="p-6">
+        <div className="mx-auto max-w-7xl">
+          <div className="mb-6 flex items-center justify-between">
+            <h1 className="text-3xl font-bold text-gray-800">
+              News Management
+            </h1>
+            <AddNewsModal open={addNewsOpen} setOpen={setAddNewsOpen} />
+          </div>
+
+          {isNewsLoading || !showContent ? (
+            <NewsLoadingSkeleton />
+          ) : newsError ? (
+            <NewsErrorPage onRetry={refetch} />
+          ) : !news || news.length === 0 ? (
+            <NewsEmptyState onAddNews={() => setAddNewsOpen(true)} />
+          ) : (
+            <NewsList
+              news={news}
+              onEdit={handleOnEdit}
+              onDelete={handleOnDelete}
+            />
+          )}
+        </div>
       </div>
-    </div>
+    </ErrorBoundary>
   );
 };
 

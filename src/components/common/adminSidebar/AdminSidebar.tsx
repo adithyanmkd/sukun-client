@@ -3,10 +3,13 @@ import {
   SidebarContent,
   SidebarFooter,
   SidebarHeader,
+  useSidebar,
 } from "@/components/ui/sidebar";
+import { Newspaper } from "lucide-react";
 
 import BrandLogo from "@assets/icons/logo.svg";
-import { Newspaper } from "lucide-react";
+import Logo from "@assets/icons/logo_icon.svg";
+
 import SidebarItems from "./SidebarItems";
 
 const data = {
@@ -34,10 +37,15 @@ const data = {
 };
 
 const AdminSidebar = () => {
+  const { state } = useSidebar();
   return (
     <Sidebar collapsible="icon">
       <SidebarHeader>
-        <img src={BrandLogo} alt="brand logo" />
+        {state === "collapsed" ? (
+          <img className="size-10" src={Logo} alt="brand logo without text" />
+        ) : (
+          <img src={BrandLogo} alt="brand logo with text" />
+        )}
       </SidebarHeader>
       <SidebarContent>
         <SidebarItems items={data.navMain} />

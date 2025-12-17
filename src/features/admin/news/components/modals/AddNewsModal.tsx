@@ -38,7 +38,12 @@ import { useFetchSourceQuery } from "../../api/sourcesApi";
 import UploadImage from "../UploadImage";
 import { uploadToCloudinary } from "@/utils/uploadToCloudinary";
 
-const AddNewsModal = () => {
+interface AddNewsProps {
+  open: boolean;
+  setOpen: (open: boolean) => void;
+}
+
+const AddNewsModal = ({ open, setOpen }: AddNewsProps) => {
   // ---------------------- api data ----------------------
   const {
     data: categiries,
@@ -54,7 +59,6 @@ const AddNewsModal = () => {
 
   // ---------------------- local state ----------------------
   const [serverError, setServerError] = useState<string | null>(null);
-  const [open, setOpen] = useState(false);
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [uploading, setUploading] = useState(false);
 
@@ -154,7 +158,7 @@ const AddNewsModal = () => {
       {isLoading ? (
         <Spinner />
       ) : error ? (
-        <p>Error component</p>
+        <></>
       ) : (
         <Dialog open={open} onOpenChange={setOpen}>
           {/* modal trigger button */}
@@ -259,7 +263,7 @@ const AddNewsModal = () => {
                               onChange={field.onChange}
                               value={field.value}
                               label="Select news category"
-                              data={sourcesOptions}
+                              data={categoryOptions}
                             />
                             {fieldState.invalid && (
                               <FieldError errors={[fieldState.error]} />
@@ -288,7 +292,7 @@ const AddNewsModal = () => {
                               onChange={field.onChange}
                               value={field.value}
                               label="Select news source"
-                              data={categoryOptions}
+                              data={sourcesOptions}
                             />
                             {fieldState.invalid && (
                               <FieldError errors={[fieldState.error]} />

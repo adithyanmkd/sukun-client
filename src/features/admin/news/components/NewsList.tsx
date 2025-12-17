@@ -1,17 +1,11 @@
 import { Edit, Trash2, Eye } from "lucide-react";
 
-export interface News {
-  id: number;
-  title: string;
-  category: string;
-  source: string;
-  dateCreated: string;
-}
+import type { NewsDto } from "../types";
 
 interface NewsListProps {
-  news: News[];
-  onEdit: (item: News) => void;
-  onDelete: (id: number) => void;
+  news: NewsDto[];
+  onEdit: (item: NewsDto) => void;
+  onDelete: (id: string) => void;
 }
 
 const NewsList = ({ news, onEdit, onDelete }: NewsListProps) => {
@@ -20,34 +14,28 @@ const NewsList = ({ news, onEdit, onDelete }: NewsListProps) => {
       <table className="w-full">
         <thead className="border-b bg-gray-100">
           <tr>
-            {[
-              "ID",
-              "Title",
-              "Category",
-              "Source",
-              "Date Created",
-              "Actions",
-            ].map((val, index) => (
-              <th
-                key={index}
-                className="px-6 py-3 text-left text-sm font-semibold text-gray-600"
-              >
-                {val}
-              </th>
-            ))}
+            {["ID", "Title", "Category", "Source", "Actions"].map(
+              (val, index) => (
+                <th
+                  key={index}
+                  className="px-6 py-3 text-left text-sm font-semibold text-gray-600"
+                >
+                  {val}
+                </th>
+              ),
+            )}
           </tr>
         </thead>
         <tbody>
-          {news.map((item) => (
-            <tr key={item.id} className="border-b hover:bg-gray-50">
-              <td className="px-6 py-4 text-sm text-gray-800">{item.id}</td>
+          {news.map((item, index) => (
+            <tr key={index} className="border-b hover:bg-gray-50">
+              <td className="px-6 py-4 text-sm text-gray-800">{index + 1}</td>
               <td className="px-6 py-4 text-sm text-gray-800">{item.title}</td>
               <td className="px-6 py-4 text-sm text-gray-800">
-                {item.category}
+                {item.category.name}
               </td>
-              <td className="px-6 py-4 text-sm text-gray-800">{item.source}</td>
               <td className="px-6 py-4 text-sm text-gray-800">
-                {item.dateCreated}
+                {item.source.name}
               </td>
               <td className="px-6 py-4">
                 <div className="flex gap-3">
@@ -62,7 +50,7 @@ const NewsList = ({ news, onEdit, onDelete }: NewsListProps) => {
                     <Edit size={18} />
                   </button>
                   <button
-                    onClick={() => onDelete(item.id)}
+                    onClick={() => onDelete(item._id)}
                     className="text-red-600 transition hover:text-red-800"
                     title="Delete"
                   >
