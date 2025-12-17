@@ -26,7 +26,7 @@ import { useAppSelector } from "@/app/hooks";
 
 const menus = [
   { name: "Home", href: "/" },
-  { name: "News", href: "/" },
+  { name: "News", href: "/news" },
   { name: "Videos", href: "/" },
   { name: "Tutors", href: "/" },
   { name: "All Features", href: "/all-features" },

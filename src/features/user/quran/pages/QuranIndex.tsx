@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useGetJuzListQuery, useGetSurahsQuery } from "../api/quranApi";
-import { useAppSelector } from "../../../app/hooks";
+import { useAppSelector } from "@/app/hooks";
 
 import SurahList from "../components/surahList/SurahList";
 import TabsFilter from "../components/TabFilter";

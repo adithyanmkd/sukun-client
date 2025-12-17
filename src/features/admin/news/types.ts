@@ -16,5 +16,8 @@ export interface NewsDto {
     name: string;
   };
   readMoreUrl: string;
-  imageUrl: string;
+  image: {
+    public_id: string;
+    url: string;
+  };
 }

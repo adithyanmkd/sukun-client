@@ -11,6 +11,7 @@ import BrandLogo from "@assets/icons/logo.svg";
 import Logo from "@assets/icons/logo_icon.svg";
 
 import SidebarItems from "./SidebarItems";
+import { Link } from "react-router-dom";
 
 const data = {
   navMain: [
@@ -41,11 +42,13 @@ const AdminSidebar = () => {
   return (
     <Sidebar collapsible="icon">
       <SidebarHeader>
-        {state === "collapsed" ? (
-          <img className="size-10" src={Logo} alt="brand logo without text" />
-        ) : (
-          <img src={BrandLogo} alt="brand logo with text" />
-        )}
+        <Link to={"/admin"}>
+          {state === "collapsed" ? (
+            <img className="size-10" src={Logo} alt="brand logo without text" />
+          ) : (
+            <img className="w-40" src={BrandLogo} alt="brand logo with text" />
+          )}
+        </Link>
       </SidebarHeader>
       <SidebarContent>
         <SidebarItems items={data.navMain} />

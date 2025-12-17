@@ -1,9 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { api } from "./apiSlice";
 import { persistedReducer } from "../app/persistConfig";
-import { quranApi } from "@/features/quran/api/quranApi";
-import readerReducer from "@/features/quran/slices/readerSlice";
-import bookmarkReducer from "@/features/quran/slices/bookmarkSlice";
+import { quranApi } from "@/features/user/quran/api/quranApi";
+import readerReducer from "@/features/user/quran/slices/readerSlice";
+import bookmarkReducer from "@/features/user/quran/slices/bookmarkSlice";
 
 export const store = configureStore({
   reducer: {

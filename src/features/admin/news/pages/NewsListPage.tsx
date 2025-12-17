@@ -20,8 +20,6 @@ const ListNewsPage = () => {
     refetch,
   } = useFetchNewsQuery();
 
-  console.log(news);
-
   // ------------------- local state -------------------
   const [showContent, setShowContent] = useState(false);
   const [addNewsOpen, setAddNewsOpen] = useState(false);
@@ -40,7 +38,7 @@ const ListNewsPage = () => {
     if (!isNewsLoading) {
       const timer = setTimeout(() => {
         setShowContent(true);
-      }, 400);
+      }, 200);
 
       return () => clearInterval(timer);
     }
