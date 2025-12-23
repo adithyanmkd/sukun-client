@@ -1,9 +1,19 @@
 import { useState } from "react";
+import { useLocation } from "react-router-dom";
 import { useGetJuzListQuery, useGetSurahsQuery } from "../api/quranApi";
 import { useAppSelector } from "@/app/hooks";
 
 import SurahList from "../components/surahList/SurahList";
 import TabsFilter from "../components/TabFilter";
+import { Link } from "react-router-dom";
+import {
+  Breadcrumb,
+  BreadcrumbList,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
 
 import { type Surah } from "../api/quranApi";
 import JuzList from "../components/juz/JuzList";
@@ -27,8 +37,15 @@ export default function QuranIndex() {
     (state: { bookmarks: { items: number[] } }) => state.bookmarks.items,
   );
 
+  const location = useLocation();
+
+  const qs = new URLSearchParams(location.search);
+  const initialFilter =
+    // prefer explicit location state (when navigated back with state)
+    (location.state as any)?.filter ?? qs.get("filter") ?? "surah";
+
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
-  const [filter, setFilter] = useState("surah");
+  const [filter, setFilter] = useState<string>(initialFilter);
 
   const surahs: Surah[] = surahData?.chapters ?? [];
   const juzList = juzData?.juzs ?? [];
@@ -75,6 +92,27 @@ export default function QuranIndex() {
 
   return (
     <div className="mx-auto max-w-3xl p-4">
+      <Breadcrumb className="mb-4">
+        <BreadcrumbList>
+          <BreadcrumbItem>
+            <BreadcrumbLink asChild>
+              <Link to="/">Home</Link>
+            </BreadcrumbLink>
+          </BreadcrumbItem>
+
+          <BreadcrumbSeparator />
+
+          <BreadcrumbItem>
+            {filter === "surah" || filter === "bookmark" ? (
+              <BreadcrumbPage>Quran</BreadcrumbPage>
+            ) : (
+              <BreadcrumbLink asChild>
+                <Link to="/quran">Quran</Link>
+              </BreadcrumbLink>
+            )}
+          </BreadcrumbItem>
+        </BreadcrumbList>
+      </Breadcrumb>
       {/* Tabs to switch between Surah, Bookmark, and Juz views */}
       <TabsFilter filter={filter} setFilter={handleSetFilter} />
 

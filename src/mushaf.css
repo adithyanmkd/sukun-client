@@ -43,3 +43,11 @@
   -webkit-column-span: all;
   column-span: all;
 }
+
+.mushaf .surah-heading {
+  -webkit-column-span: all;
+  column-span: all;
+  text-align: center;
+  font-size: 1rem;
+  margin: 1rem 0 0.5rem 0;
+}

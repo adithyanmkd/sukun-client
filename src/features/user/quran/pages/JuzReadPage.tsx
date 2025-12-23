@@ -1,10 +1,6 @@
 import { useNavigate, useParams, Link } from "react-router-dom";
-import {
-  useGetSurahAyahsQuery,
-  useGetSurahsQuery,
-  type Surah,
-} from "../api/quranApi";
-import AyahItem from "../components/read/AyahItem";
+import { useGetJuzListQuery, useGetSurahsQuery } from "../api/quranApi";
+import JuzSurahSection from "../components/juz/JuzSurahSection";
 import { ArrowLeft } from "lucide-react";
 import {
   Breadcrumb,
@@ -15,17 +11,22 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 
-export default function SurahReadPage() {
+export default function JuzReadPage() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const surahId = Number(id);
+  const juzNumber = Number(id);
 
+  const { data: juzData, isLoading: isJuzLoading } = useGetJuzListQuery();
   const { data: surahData } = useGetSurahsQuery();
-  const surah = surahData?.chapters?.find((s: Surah) => s.id === surahId);
 
-  const { data, isLoading } = useGetSurahAyahsQuery(surahId);
+  if (isJuzLoading) return <p className="p-4">Loading...</p>;
 
-  if (isLoading) return <p className="p-4">Loading...</p>;
+  const juz = juzData?.juzs?.find(
+    (j: any) => Number(j.juz_number) === juzNumber,
+  );
+  if (!juz) return <div className="p-4 text-center">Juz not found.</div>;
+
+  const surahs: any[] = surahData?.chapters ?? [];
 
   return (
     <div className="mx-auto max-w-3xl p-4">
@@ -48,43 +49,44 @@ export default function SurahReadPage() {
           <BreadcrumbSeparator />
 
           <BreadcrumbItem>
-            <BreadcrumbPage>
-              {surah?.name_simple ?? surah?.name_arabic}
-            </BreadcrumbPage>
+            <BreadcrumbPage>Juz {juz.juz_number}</BreadcrumbPage>
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
       <header className="mb-6 flex items-start justify-between">
-        <button onClick={() => navigate(-1)} aria-label="back">
+        <button
+          onClick={() => navigate("/quran", { state: { filter: "juz" } })}
+          aria-label="back"
+        >
           <ArrowLeft className="h-6 w-6" />
         </button>
 
         <div className="w-full text-center">
-          <h1 className="font-serif text-2xl font-bold">
-            {surah?.name_arabic}
-          </h1>
+          <h1 className="text-2xl font-bold">Juz {juz.juz_number}</h1>
           <p className="text-sm text-gray-600">
-            {surah?.name_simple} • {surah?.translated_name?.name} •{" "}
-            {surah?.revelation_place}
+            Contains {Object.keys(juz.verse_mapping ?? {}).length} Surahs
           </p>
         </div>
 
         <div style={{ width: 28 }} />
       </header>
 
-      {surah?.bismillah_pre && (
-        <div className="mb-6 text-center">
-          <p className="font-arabic text-2xl">
-            بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ
-          </p>
-        </div>
-      )}
-
       <article className="mushaf mx-auto">
-        {// eslint-disable-next-line @typescript-eslint/no-explicit-any
-        data?.verses?.map((ayah: any) => (
-          <AyahItem key={ayah.id} ayah={ayah} />
-        ))}
+        {Object.entries(juz.verse_mapping ?? {}).map(
+          ([surahId, mapping]: any) => {
+            const surahMeta = surahs.find(
+              (s: any) => Number(s.id) === Number(surahId),
+            );
+            return (
+              <JuzSurahSection
+                key={surahId}
+                surahId={Number(surahId)}
+                range={mapping}
+                surah={surahMeta}
+              />
+            );
+          },
+        )}
       </article>
     </div>
   );

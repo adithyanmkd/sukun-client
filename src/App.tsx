@@ -19,6 +19,7 @@ import PrivacyPolicy from "./pages/PrivacyPolicy.tsx";
 // Quran pages
 import QuranIndex from "./features/user/quran/pages/QuranIndex";
 import SurahReadPage from "./features/user/quran/pages/SurahReadPage.tsx";
+import JuzReadPage from "./features/user/quran/pages/JuzReadPage";
 
 // Profile pages
 import Profile from "./features/user/profile/pages/Profile.tsx";
@@ -62,6 +63,7 @@ function App() {
           {/* Quran pages */}
           <Route path="/quran" element={<QuranIndex />} />
           <Route path="/surah/:id" element={<SurahReadPage />} />
+          <Route path="/quran/juz/:id" element={<JuzReadPage />} />
 
           {/* news pages */}
           <Route path="/news" element={<News />} />
