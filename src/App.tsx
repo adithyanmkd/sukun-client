@@ -21,6 +21,9 @@ import QuranIndex from "./features/user/quran/pages/QuranIndex";
 import SurahReadPage from "./features/user/quran/pages/SurahReadPage.tsx";
 import JuzReadPage from "./features/user/quran/pages/JuzReadPage";
 
+// Dhikr pages
+import DhikrCounterPage from "./features/user/dhikr/pages/DhikrCounterPage";
+
 // Profile pages
 import Profile from "./features/user/profile/pages/Profile.tsx";
 
@@ -64,6 +67,9 @@ function App() {
           <Route path="/quran" element={<QuranIndex />} />
           <Route path="/surah/:id" element={<SurahReadPage />} />
           <Route path="/quran/juz/:id" element={<JuzReadPage />} />
+
+          {/* Dhikr pages */}
+          <Route path="/dhikr" element={<DhikrCounterPage />} />
 
           {/* news pages */}
           <Route path="/news" element={<News />} />

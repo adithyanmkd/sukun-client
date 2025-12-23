@@ -14,11 +14,13 @@ import {
   Users,
   ListTodo,
   Calculator,
+  Repeat,
 } from "lucide-react";
 import masjidIcon from "@assets/icons/masjid.svg";
 
 const categories = [
   { name: "Quran", icon: BookOpen, link: "/quran" },
+  { name: "Dhikr Counter", icon: Repeat, link: "/dhikr" },
   { name: "News", icon: Newspaper, link: "/" },
   { name: "Videos", icon: Video, link: "/" },
   { name: "Discover", icon: Search, link: "/" },
