@@ -3,13 +3,24 @@ interface AyahItemProps {
 }
 
 export default function AyahItem({ ayah }: AyahItemProps) {
-  return (
-    <div className="border-b pb-4">
-      <p className="font-arabic mb-2 text-right text-2xl leading-relaxed">
-        {ayah.text_uthmani}
-      </p>
+  const toArabicIndic = (n: number | string) =>
+    String(n).replace(/\d/g, (d) => "٠١٢٣٤٥٦٧٨٩"[Number(d)]);
 
-      <p className="text-sm text-gray-700">{ayah.translation?.text}</p>
-    </div>
+  const num = ayah.verse_number ?? ayah.id;
+
+  return (
+    <>
+      <span className="ayah" dir="rtl">
+        {ayah.text_uthmani}
+      </span>
+
+      <span className="verse-marker" aria-hidden>
+        {toArabicIndic(num)}
+      </span>
+
+      {ayah.translation?.text && (
+        <span className="translation">{ayah.translation.text}</span>
+      )}
+    </>
   );
 }
