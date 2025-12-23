@@ -36,6 +36,7 @@ import {
 import { useAddNewsMutation, useFetchCategoriesQuery } from "../../api/newsApi";
 import { useFetchSourceQuery } from "../../api/sourcesApi";
 import UploadImage from "../UploadImage";
+import CropperModal from "@/components/CropperModal";
 import { uploadToCloudinary } from "@/utils/uploadToCloudinary";
 
 interface AddNewsProps {
@@ -60,6 +61,8 @@ const AddNewsModal = ({ open, setOpen }: AddNewsProps) => {
   // ---------------------- local state ----------------------
   const [serverError, setServerError] = useState<string | null>(null);
   const [imageFile, setImageFile] = useState<File | null>(null);
+  const [pendingFile, setPendingFile] = useState<File | null>(null);
+  const [openCropper, setOpenCropper] = useState(false);
   const [uploading, setUploading] = useState(false);
 
   // ---------------------- form configuration ----------------------
@@ -331,10 +334,30 @@ const AddNewsModal = ({ open, setOpen }: AddNewsProps) => {
                       <div className="pt-4">
                         <UploadImage
                           onFileSelect={(file) => {
-                            setImageFile(file);
+                            // open cropper when a new file is selected
+                            if (file) {
+                              setPendingFile(file);
+                              setOpenCropper(true);
+                            } else {
+                              setImageFile(null);
+                            }
                             if (file) {
                               form.clearErrors("imageUrl");
                             }
+                          }}
+                        />
+
+                        <CropperModal
+                          file={pendingFile}
+                          open={openCropper}
+                          aspect={4 / 3}
+                          onClose={() => {
+                            setOpenCropper(false);
+                            setPendingFile(null);
+                          }}
+                          onCropComplete={(file) => {
+                            setImageFile(file);
+                            setPendingFile(null);
                           }}
                         />
 
