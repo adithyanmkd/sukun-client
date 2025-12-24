@@ -67,7 +67,6 @@ const DEFAULT_DHIKRS: DhikrItem[] = [
 export default function DhikrCounterPage() {
   const [dhikrs, setDhikrs] = useState<DhikrItem[]>(DEFAULT_DHIKRS);
   const [selectedId, setSelectedId] = useState<string>("1");
-  const [timerEnabled, setTimerEnabled] = useState(false);
   const [savedProgresses, setSavedProgresses] = useState<SavedProgress[]>([]);
 
   const selected = dhikrs.find((d) => d.id === selectedId);
