@@ -1,6 +1,15 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
 import { RotateCcw, Plus, Trash2 } from "lucide-react";
 import DhikrSessionTimer from "../components/DhikrSessionTimer";
 
@@ -101,6 +110,21 @@ export default function DhikrCounterPage() {
   return (
     <div className="min-h-screen bg-linear-to-br from-green-50 to-green-100 p-4">
       <div className="mx-auto max-w-6xl">
+        {/* Breadcrumb */}
+        <Breadcrumb className="mb-6">
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbLink asChild>
+                <Link to="/">Home</Link>
+              </BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbPage>Dhikr Counter</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
+
         {/* Main Grid */}
         <div className="grid gap-6 lg:grid-cols-3">
           {/* Left Column - Counter */}
