@@ -13,8 +13,6 @@ const News = () => {
     refetch,
   } = useFetchNewsQuery();
 
-  console.log(news);
-
   const showContent = useMinDelay(isNewsLoading, 400);
 
   return (

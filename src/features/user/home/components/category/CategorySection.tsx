@@ -24,7 +24,7 @@ const categories = [
   { name: "News", icon: Newspaper, link: "/news" },
   { name: "Videos", icon: Video, link: "/" },
   { name: "Discover", icon: Search, link: "/" },
-  { name: "Qibla Direction", icon: Compass, link: "/" },
+  { name: "Qibla Direction", icon: Compass, link: "/qibla" },
   { name: "Adhan Times", icon: AlarmClock, link: "/" },
   { name: "Calendar & Events", icon: CalendarDays, link: "/" },
   { name: "Date Converter", icon: Lightbulb, link: "/" },

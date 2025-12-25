@@ -39,6 +39,7 @@ import CategoryListPage from "./features/admin/news/pages/CategoryListPage.tsx";
 import SourceListPage from "./features/admin/news/pages/SourceListPage.tsx";
 
 import News from "./features/user/news/pages/News.tsx";
+import QiblaDirection from "./features/user/qibla/pages/QiblaDirection.tsx";
 
 function App() {
   return (
@@ -68,8 +69,8 @@ function App() {
           <Route path="/surah/:id" element={<SurahReadPage />} />
           <Route path="/quran/juz/:id" element={<JuzReadPage />} />
 
-          {/* Dhikr pages */}
           <Route path="/dhikr" element={<DhikrCounterPage />} />
+          <Route path="/qibla" element={<QiblaDirection />} />
 
           {/* news pages */}
           <Route path="/news" element={<News />} />
