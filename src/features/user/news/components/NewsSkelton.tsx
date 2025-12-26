@@ -3,7 +3,7 @@ const NewsCardSkeleton = () => {
     <div className="animate-pulse overflow-hidden rounded-lg bg-white shadow-md">
       <div className="flex flex-col lg:flex-row">
         {/* Image Skeleton */}
-        <div className="animate-shimmer h-64 bg-linear-to-r from-gray-200 via-gray-300 to-gray-200 bg-[length:200%_100%] lg:h-80 lg:w-96"></div>
+        <div className="animate-shimmer h-64 bg-linear-to-r from-gray-200 via-gray-300 to-gray-200 bg-size-[200%_100%] lg:h-80 lg:w-96"></div>
 
         {/* Content Skeleton */}
         <div className="flex flex-1 flex-col p-6">

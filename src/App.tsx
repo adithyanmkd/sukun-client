@@ -40,6 +40,7 @@ import SourceListPage from "./features/admin/news/pages/SourceListPage.tsx";
 
 import News from "./features/user/news/pages/News.tsx";
 import QiblaDirection from "./features/user/qibla/pages/QiblaDirection.tsx";
+import AdhanTimes from "./features/user/adhanTimes/AdhanTimes.tsx";
 
 function App() {
   return (
@@ -71,6 +72,7 @@ function App() {
 
           <Route path="/dhikr" element={<DhikrCounterPage />} />
           <Route path="/qibla" element={<QiblaDirection />} />
+          <Route path="/adhan-times" element={<AdhanTimes />} />
 
           {/* news pages */}
           <Route path="/news" element={<News />} />
